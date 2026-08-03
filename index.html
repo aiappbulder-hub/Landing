@@ -103,15 +103,16 @@ main,header,footer{position:relative;z-index:2}
 /* ─────────────────────────────────────────────────────────────
    HERO
    ───────────────────────────────────────────────────────────── */
-/* padding-block only — the shorthand would wipe .wrap's padding-inline */
-.hero{padding-block:clamp(60px,13vh,130px) clamp(34px,6vh,56px)}
+/* Kept deliberately short: the apps must reach the fold, not the copy.
+   padding-block only — the shorthand would wipe .wrap's padding-inline */
+.hero{padding-block:clamp(24px,5vh,50px) clamp(18px,3vh,30px)}
 .kicker{display:inline-flex;align-items:center;gap:9px;color:var(--text-3);
   border:1px solid var(--line);border-radius:99px;padding:6px 14px;background:var(--panel)}
 .kicker .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;
   box-shadow:0 0 0 0 rgba(74,222,128,.65);animation:pulse 2.4s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
 
-.hero h1{margin:26px 0 0;font-size:clamp(2.9rem,10.5vw,7.4rem);font-weight:900;letter-spacing:-.055em}
+.hero h1{margin:18px 0 0;font-size:clamp(2.3rem,6.4vw,4.4rem);font-weight:900;letter-spacing:-.05em}
 .hero h1 .sweep{
   background:linear-gradient(100deg,#ff5c22,#ffb347 22%,#00d3b8 48%,#6a9bff 70%,#ff5c22 92%);
   background-size:280% 100%;
@@ -119,31 +120,20 @@ main,header,footer{position:relative;z-index:2}
   animation:sweep 9s linear infinite;
 }
 @keyframes sweep{to{background-position:280% 50%}}
-.hero__sub{margin-top:24px;max-width:62ch;font-size:clamp(1.02rem,2.1vw,1.24rem);color:var(--text-2)}
+.hero__sub{margin-top:14px;max-width:56ch;font-size:clamp(.98rem,1.7vw,1.1rem);color:var(--text-2)}
 .hero__sub b{color:var(--text);font-weight:650}
 
-.stats{display:flex;flex-wrap:wrap;gap:10px 34px;margin-top:38px;padding-top:26px;border-top:1px solid var(--line)}
-.stat{display:flex;flex-direction:column;gap:2px}
-.stat b{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:850;letter-spacing:-.04em;line-height:1}
+.stats{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.stat{display:flex;align-items:baseline;gap:8px}
+.stat b{font-size:clamp(1.15rem,2.4vw,1.45rem);font-weight:850;letter-spacing:-.04em;line-height:1}
 .stat span{color:var(--text-3)}
-
-/* TICKER */
-.ticker{margin-top:clamp(34px,6vh,56px);border-block:1px solid var(--line);
-  padding:13px 0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
-.ticker__row{display:flex;width:max-content;animation:roll 38s linear infinite}
-.ticker:hover .ticker__row{animation-play-state:paused}
-.ticker__row span{display:flex;align-items:center;gap:26px;padding-right:26px;
-  color:var(--text-3);white-space:nowrap}
-.ticker__row span i{color:var(--inferno);font-style:normal}
-@keyframes roll{to{transform:translateX(-50%)}}
 
 /* ─────────────────────────────────────────────────────────────
    FILTER BAR
    ───────────────────────────────────────────────────────────── */
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  padding-block:clamp(46px,8vh,76px) 22px}
-.bar h2{font-size:clamp(1.5rem,4vw,2.15rem)}
+  padding-block:clamp(18px,3vh,28px) 14px}
+.bar h2{font-size:clamp(1.2rem,2.6vw,1.6rem)}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
 .chip{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;
   background:var(--panel);border:1px solid var(--line);color:var(--text-2);
@@ -402,14 +392,13 @@ main,header,footer{position:relative;z-index:2}
 
   <!-- ══ HERO ══ -->
   <section class="wrap hero">
-    <span class="kicker mono"><span class="dot"></span> Seven shipped · Built with Claude Code</span>
+    <span class="kicker mono"><span class="dot"></span> Seven apps · All live</span>
 
     <h1>Small apps,<br><span class="sweep">sharp edges.</span></h1>
 
     <p class="hero__sub">
-      A platformer that walks Dante down a subway line. A Wordle clone that will tell you the
-      answer if you ask nicely. Twelve running calculators. A rebate estimator for HVAC quotes.
-      <b>No frameworks, no build steps</b> — mostly one very determined <code>index.html</code> apiece.
+      Games, tools, and a couple of things that are both — with
+      <b>no frameworks and no build steps</b>, mostly one very determined <code>index.html</code> apiece.
     </p>
 
     <div class="stats">
@@ -419,14 +408,6 @@ main,header,footer{position:relative;z-index:2}
       <div class="stat"><b>0</b><span class="mono">Dependencies</span></div>
     </div>
   </section>
-
-  <!-- ══ TICKER ══ -->
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker__row">
-      <span class="mono">Inferno <i>◆</i> Wordle <i>◆</i> Finance Dashboard <i>◆</i> RunTrack <i>◆</i> HVAC Sales Tool <i>◆</i> Whack-a-Dog <i>◆</i> Pawn Master <i>◆</i></span>
-      <span class="mono">Inferno <i>◆</i> Wordle <i>◆</i> Finance Dashboard <i>◆</i> RunTrack <i>◆</i> HVAC Sales Tool <i>◆</i> Whack-a-Dog <i>◆</i> Pawn Master <i>◆</i></span>
-    </div>
-  </div>
 
   <!-- ══ FILTER ══ -->
   <section class="wrap bar" id="work">
