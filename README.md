@@ -9,13 +9,21 @@ a single-page showcase of all seven apps, with a live link and source link for e
 
 | App | What it is | Link |
 |---|---|---|
-| **Inferno** | Dante's *Inferno* as a cinematic 2D platformer, plus a 3D *Purgatorio* chapter | [play](https://aiappbulder-hub.github.io/inferno/) · [src](https://github.com/aiappbulder-hub/inferno) |
+| **Inferno** | Dante's *Inferno* as a cinematic 2D platformer, plus a 3D *Purgatorio* chapter | [play](https://aiappbulder-hub.github.io/inferno/game/) · [src](https://github.com/aiappbulder-hub/inferno) |
 | **Wordle** | Wordle clone with a clue button and a live possible-words solver | [play](https://aiappbulder-hub.github.io/Wordle/) · [src](https://github.com/aiappbulder-hub/Wordle) |
 | **Finance Dashboard** | Property, investments, super and retirement countdown — installable PWA | [open](https://aiappbulder-hub.github.io/Finance-Dashboard/) · [src](https://github.com/aiappbulder-hub/Finance-Dashboard) |
 | **RunTrack** | Twelve running calculators + My Plan — installable PWA | [open](https://aiappbulder-hub.github.io/Runtrack/) · [src](https://github.com/aiappbulder-hub/Runtrack) |
 | **HVAC Sales Tool** | Room-by-room sizing, VEU rebate estimator, unit selection | [open](https://aiappbulder-hub.github.io/hvac-tool/) · [src](https://github.com/aiappbulder-hub/hvac-tool) |
 | **Whack-a-Dog** | Whack-a-mole with dogs, combos, and sleeping-dog penalties | [play](https://aiappbulder-hub.github.io/Whackadog/) · [src](https://github.com/aiappbulder-hub/Whackadog) |
-| **Pawn Shop** | Godot 4 shop sim — appraise and haggle. In development | [src](https://github.com/aiappbulder-hub/Pawnshop) |
+| **Pawn Master** | Inherit Merrick's and its $18,000 debt; spot the forgeries — installable PWA | [play](https://aiappbulder-hub.github.io/Pawnshop/) · [src](https://github.com/aiappbulder-hub/Pawnshop) |
+
+### A note on the Inferno link
+
+Inferno's Pages site serves the repo root, but the game is published under `game/` and the
+root has no `index.html` — so the bare `…/inferno/` URL 404s and the link here points at
+`…/inferno/game/`. Adding a root `index.html` that redirects to `./game/` in the inferno repo
+(the same trick Pawnshop already uses to forward `/Pawnshop/` to `/web/`) would let the bare
+URL work, at which point this link can be shortened.
 
 ## How it's built
 

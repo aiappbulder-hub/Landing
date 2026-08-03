@@ -414,8 +414,8 @@ main,header,footer{position:relative;z-index:2}
 
     <div class="stats">
       <div class="stat"><b>7</b><span class="mono">Projects</span></div>
-      <div class="stat"><b>6</b><span class="mono">Playable now</span></div>
-      <div class="stat"><b>3</b><span class="mono">Install to phone</span></div>
+      <div class="stat"><b>7</b><span class="mono">Playable now</span></div>
+      <div class="stat"><b>4</b><span class="mono">Install to phone</span></div>
       <div class="stat"><b>0</b><span class="mono">Dependencies</span></div>
     </div>
   </section>
@@ -423,8 +423,8 @@ main,header,footer{position:relative;z-index:2}
   <!-- ══ TICKER ══ -->
   <div class="ticker" aria-hidden="true">
     <div class="ticker__row">
-      <span class="mono">Inferno <i>◆</i> Wordle <i>◆</i> Finance Dashboard <i>◆</i> RunTrack <i>◆</i> HVAC Sales Tool <i>◆</i> Whack-a-Dog <i>◆</i> Pawn Shop <i>◆</i></span>
-      <span class="mono">Inferno <i>◆</i> Wordle <i>◆</i> Finance Dashboard <i>◆</i> RunTrack <i>◆</i> HVAC Sales Tool <i>◆</i> Whack-a-Dog <i>◆</i> Pawn Shop <i>◆</i></span>
+      <span class="mono">Inferno <i>◆</i> Wordle <i>◆</i> Finance Dashboard <i>◆</i> RunTrack <i>◆</i> HVAC Sales Tool <i>◆</i> Whack-a-Dog <i>◆</i> Pawn Master <i>◆</i></span>
+      <span class="mono">Inferno <i>◆</i> Wordle <i>◆</i> Finance Dashboard <i>◆</i> RunTrack <i>◆</i> HVAC Sales Tool <i>◆</i> Whack-a-Dog <i>◆</i> Pawn Master <i>◆</i></span>
     </div>
   </div>
 
@@ -435,7 +435,7 @@ main,header,footer{position:relative;z-index:2}
       <button class="chip" data-filter="all"  aria-pressed="true">All <small>7</small></button>
       <button class="chip" data-filter="game" aria-pressed="false">Games <small>4</small></button>
       <button class="chip" data-filter="tool" aria-pressed="false">Tools <small>3</small></button>
-      <button class="chip" data-filter="pwa"  aria-pressed="false">Installable <small>3</small></button>
+      <button class="chip" data-filter="pwa"  aria-pressed="false">Installable <small>4</small></button>
     </div>
   </section>
 
@@ -466,7 +466,9 @@ main,header,footer{position:relative;z-index:2}
             <span class="tag tag--kind">Cinematic platformer</span>
             <span class="tag">2D + WebGL</span>
           </div>
-          <h3 class="title"><a href="https://aiappbulder-hub.github.io/inferno/">Inferno</a></h3>
+          <!-- Pages serves this repo from its root, but the game is published
+               under game/ — the bare /inferno/ URL has no index.html. -->
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/inferno/game/">Inferno</a></h3>
           <p class="desc">
             Dante&rsquo;s <i>Inferno</i>, canto by canto, restaged as a descent through a subway system —
             in the exact grammar of <i>Another World</i> (1991). Hell is the transit network under the city,
@@ -679,7 +681,7 @@ main,header,footer{position:relative;z-index:2}
       </article>
 
       <!-- PAWN SHOP -->
-      <article class="card" data-tags="game" style="--accent:#d4a017">
+      <article class="card" data-tags="game pwa" style="--accent:#d6b463">
         <div class="art a-pawn" aria-hidden="true">
           <div class="sign">
             <span class="ball"></span><span class="ball"></span><span class="ball"></span>
@@ -687,25 +689,30 @@ main,header,footer{position:relative;z-index:2}
         </div>
         <div class="body">
           <div class="meta">
-            <span class="tag tag--dev">In development</span>
-            <span class="tag tag--kind">Godot 4 · commercial</span>
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Appraisal sim</span>
+            <span class="tag">PWA</span>
           </div>
-          <h3 class="title"><a href="https://github.com/aiappbulder-hub/Pawnshop">Pawn Shop</a></h3>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Pawnshop/">Pawn Master</a></h3>
           <p class="desc">
-            Run the counter: appraise what walks through the door, haggle, and decide what it&rsquo;s
-            really worth. Built in Godot 4 on a strict data-driven spine — pricing lives behind a
-            strategy interface, and every item, category and condition tier is a resource file, so
-            new content is a data change and never a code change.
+            You&rsquo;ve inherited Merrick&rsquo;s from your grandfather Sol — along with the
+            <b>$18,000</b> he owed. Every antique that crosses the counter arrives with a story,
+            and about a third of those stories are lies. A Stradivarius with <i>copy of</i> printed
+            above the label. A key-date cent with the mintmark soldered on. Learn to tell which,
+            or lose the shop.
           </p>
           <ul class="feats">
-            <li>GDScript</li>
-            <li>Open/closed pricing strategies</li>
-            <li>No hardcoded gameplay values</li>
+            <li>Apparent vs. true value</li>
+            <li>Tool-gated authentication</li>
+            <li>Balance verified over 400-run sims</li>
+            <li>Offline · installable</li>
+            <li>Godot build in development</li>
           </ul>
           <div class="actions">
-            <span class="go">Read the architecture
+            <span class="go">Open the shop
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/Pawnshop">Source</a>
           </div>
         </div>
       </article>
