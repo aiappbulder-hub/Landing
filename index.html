@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Built by Trent — an arcade of small, sharp apps</title>
+<meta name="description" content="Seven things I built: a Dante platformer, a Wordle clone with a solver, a finance PWA, twelve running calculators, an HVAC sales tool, a dog-whacking game, and a pawn shop sim.">
+<meta name="theme-color" content="#07080c">
+<meta property="og:title" content="Built by Trent — an arcade of small, sharp apps">
+<meta property="og:description" content="Seven things I built. Games, tools, and a couple of things that are both.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2307080c'/%3E%3Cpath d='M28 68V32h13l9 22 9-22h13v36H61V47l-8 21h-6l-8-21v21z' fill='%23ff7a3d'/%3E%3C/svg%3E">
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   TOKENS
+   Accent colours are lifted from each app's own real interface.
+   ───────────────────────────────────────────────────────────── */
+:root{
+  --ink:#07080c;
+  --ink-2:#0c0e14;
+  --panel:rgba(255,255,255,.035);
+  --panel-hi:rgba(255,255,255,.07);
+  --line:rgba(255,255,255,.10);
+  --line-hi:rgba(255,255,255,.20);
+  --text:#eef1f7;
+  --text-2:#a2aab9;
+  --text-3:#6e7688;
+
+  --inferno:#ff5c22;
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+
+  --r:18px;
+  --pad:clamp(16px,4vw,28px);
+  --maxw:1240px;
+  --ease:cubic-bezier(.22,.85,.3,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--ink);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3{line-height:1.02;letter-spacing:-.035em;margin:0;font-weight:800}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+code{font-family:var(--mono);font-size:.86em;color:var(--text);
+  background:var(--panel-hi);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+
+::selection{background:var(--inferno);color:#fff}
+:focus-visible{outline:2px solid var(--accent,#fff);outline-offset:3px;border-radius:6px}
+
+.wrap{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad)}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+
+/* ─────────────────────────────────────────────────────────────
+   ATMOSPHERE — drifting colour mesh + film grain
+   ───────────────────────────────────────────────────────────── */
+.aura{position:fixed;inset:-25vmax;z-index:0;pointer-events:none;filter:blur(90px);opacity:.55}
+.aura i{position:absolute;display:block;border-radius:50%;mix-blend-mode:screen;animation:drift 34s var(--ease) infinite alternate}
+.aura i:nth-child(1){width:48vmax;height:48vmax;left:2%;top:4%;background:#ff5c22;animation-duration:31s}
+.aura i:nth-child(2){width:42vmax;height:42vmax;right:4%;top:0%;background:#00897B;animation-duration:38s;animation-delay:-6s}
+.aura i:nth-child(3){width:38vmax;height:38vmax;left:34%;bottom:2%;background:#6a3df5;animation-duration:44s;animation-delay:-14s}
+.aura i:nth-child(4){width:30vmax;height:30vmax;right:22%;bottom:8%;background:#d4a017;animation-duration:29s;animation-delay:-3s}
+@keyframes drift{
+  0%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(6vmax,-5vmax,0) scale(1.18)}
+  100%{transform:translate3d(-5vmax,4vmax,0) scale(.92)}
+}
+.grain{
+  position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.30;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+.vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 0%,transparent 35%,rgba(0,0,0,.72) 100%)}
+main,header,footer{position:relative;z-index:2}
+
+/* ─────────────────────────────────────────────────────────────
+   NAV
+   ───────────────────────────────────────────────────────────── */
+.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px) saturate(160%);
+  background:rgba(7,8,12,.62);border-bottom:1px solid var(--line)}
+.nav__in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:62px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:800;letter-spacing:-.02em}
+.brand__mark{width:30px;height:30px;border-radius:9px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(140deg,#ff5c22,#d4a017 45%,#00897B);color:#07080c;font-size:.85rem;font-weight:900}
+.nav__links{display:flex;align-items:center;gap:6px}
+.nav__links a{text-decoration:none;color:var(--text-2);padding:7px 12px;border-radius:99px;font-size:.86rem;
+  font-weight:600;transition:color .2s,background .2s}
+.nav__links a:hover{color:var(--text);background:var(--panel-hi)}
+@media(max-width:560px){.nav__links a.opt{display:none}}
+
+/* ─────────────────────────────────────────────────────────────
+   HERO
+   ───────────────────────────────────────────────────────────── */
+/* padding-block only — the shorthand would wipe .wrap's padding-inline */
+.hero{padding-block:clamp(60px,13vh,130px) clamp(34px,6vh,56px)}
+.kicker{display:inline-flex;align-items:center;gap:9px;color:var(--text-3);
+  border:1px solid var(--line);border-radius:99px;padding:6px 14px;background:var(--panel)}
+.kicker .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;
+  box-shadow:0 0 0 0 rgba(74,222,128,.65);animation:pulse 2.4s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+
+.hero h1{margin:26px 0 0;font-size:clamp(2.9rem,10.5vw,7.4rem);font-weight:900;letter-spacing:-.055em}
+.hero h1 .sweep{
+  background:linear-gradient(100deg,#ff5c22,#ffb347 22%,#00d3b8 48%,#6a9bff 70%,#ff5c22 92%);
+  background-size:280% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sweep 9s linear infinite;
+}
+@keyframes sweep{to{background-position:280% 50%}}
+.hero__sub{margin-top:24px;max-width:62ch;font-size:clamp(1.02rem,2.1vw,1.24rem);color:var(--text-2)}
+.hero__sub b{color:var(--text);font-weight:650}
+
+.stats{display:flex;flex-wrap:wrap;gap:10px 34px;margin-top:38px;padding-top:26px;border-top:1px solid var(--line)}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat b{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:850;letter-spacing:-.04em;line-height:1}
+.stat span{color:var(--text-3)}
+
+/* TICKER */
+.ticker{margin-top:clamp(34px,6vh,56px);border-block:1px solid var(--line);
+  padding:13px 0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.ticker__row{display:flex;width:max-content;animation:roll 38s linear infinite}
+.ticker:hover .ticker__row{animation-play-state:paused}
+.ticker__row span{display:flex;align-items:center;gap:26px;padding-right:26px;
+  color:var(--text-3);white-space:nowrap}
+.ticker__row span i{color:var(--inferno);font-style:normal}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+/* ─────────────────────────────────────────────────────────────
+   FILTER BAR
+   ───────────────────────────────────────────────────────────── */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding-block:clamp(46px,8vh,76px) 22px}
+.bar h2{font-size:clamp(1.5rem,4vw,2.15rem)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;
+  background:var(--panel);border:1px solid var(--line);color:var(--text-2);
+  padding:9px 15px;border-radius:99px;cursor:pointer;transition:all .22s var(--ease)}
+.chip:hover{border-color:var(--line-hi);color:var(--text)}
+.chip[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:var(--ink);font-weight:700}
+.chip small{opacity:.55;margin-left:5px}
+
+/* ─────────────────────────────────────────────────────────────
+   GRID + CARDS
+   ───────────────────────────────────────────────────────────── */
+.grid{display:grid;gap:18px;grid-template-columns:1fr;padding-bottom:clamp(50px,9vh,90px)}
+@media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .card--wide{grid-column:span 2}
+}
+
+.card{
+  position:relative;isolation:isolate;overflow:hidden;
+  border:1px solid var(--line);border-radius:var(--r);
+  background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.018));
+  display:flex;flex-direction:column;
+  transition:transform .45s var(--ease),border-color .35s,box-shadow .45s var(--ease),opacity .35s,filter .35s;
+  transform:translateZ(0);
+}
+/* pointer spotlight */
+.card::before{
+  content:"";position:absolute;inset:-1px;z-index:3;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,0%),
+    color-mix(in srgb,var(--accent) 26%,transparent),transparent 62%);
+  opacity:0;transition:opacity .35s}
+.card:hover::before,.card:focus-within::before{opacity:1}
+.card:hover,.card:focus-within{
+  border-color:color-mix(in srgb,var(--accent) 45%,var(--line));
+  box-shadow:0 26px 60px -26px color-mix(in srgb,var(--accent) 60%,transparent),
+             0 0 0 1px color-mix(in srgb,var(--accent) 16%,transparent) inset;
+}
+
+/* reveal on scroll */
+.card{opacity:0;transform:translateY(26px)}
+.card.in{opacity:1;transform:none}
+
+/* dimmed by filter */
+.card.out{opacity:.13;filter:grayscale(1) blur(1px);pointer-events:none;transform:scale(.97)}
+
+/* ---- ART PANEL ---- */
+.art{position:relative;height:168px;flex:none;overflow:hidden;
+  border-bottom:1px solid var(--line);
+  background:radial-gradient(120% 130% at 50% 0%,
+    color-mix(in srgb,var(--accent) 22%,transparent),transparent 68%),#0a0c12}
+.card--wide .art{height:236px}
+.art::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(7,8,12,.85))}
+
+/* ---- BODY ---- */
+.body{padding:20px 20px 22px;display:flex;flex-direction:column;gap:11px;flex:1}
+.meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:4px 9px;border-radius:5px;border:1px solid var(--line);color:var(--text-3)}
+.tag--live{color:#7ee7a8;border-color:rgba(126,231,168,.36);background:rgba(126,231,168,.09)}
+.tag--dev{color:#ffcf6b;border-color:rgba(255,207,107,.34);background:rgba(255,207,107,.08)}
+.tag--kind{color:color-mix(in srgb,var(--accent) 78%,#fff);
+  border-color:color-mix(in srgb,var(--accent) 38%,transparent);
+  background:color-mix(in srgb,var(--accent) 11%,transparent)}
+
+.title{font-size:1.42rem;letter-spacing:-.04em}
+.card--wide .title{font-size:clamp(1.6rem,3.4vw,2.15rem)}
+.title a{text-decoration:none}
+.title a::after{content:"";position:absolute;inset:0;z-index:2}
+.desc{color:var(--text-2);font-size:.94rem}
+.card--wide .desc{font-size:1rem;max-width:60ch}
+
+.feats{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.feats li{font-size:.75rem;color:var(--text-3);border:1px solid var(--line);
+  padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.02)}
+
+.actions{margin-top:auto;padding-top:14px;display:flex;align-items:center;gap:10px}
+.go{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:.9rem;
+  color:color-mix(in srgb,var(--accent) 82%,#fff)}
+.go svg{transition:transform .3s var(--ease)}
+.card:hover .go svg{transform:translateX(4px)}
+.src{position:relative;z-index:4;margin-left:auto;display:inline-flex;align-items:center;gap:6px;
+  font-size:.8rem;color:var(--text-3);text-decoration:none;padding:6px 11px;border-radius:99px;
+  border:1px solid var(--line);transition:all .22s}
+.src:hover{color:var(--text);border-color:var(--line-hi);background:var(--panel-hi)}
+
+/* ═════════════════════════════════════════════════════════════
+   BESPOKE CARD ARTWORK
+   Each piece is hand-built from the app's own visual language.
+   ═════════════════════════════════════════════════════════════ */
+
+/* — INFERNO: a tunnel descending, embers rising — */
+.a-inferno{background:radial-gradient(58% 78% at 50% 96%,
+    rgba(255,110,40,.34),rgba(120,26,8,.22) 42%,transparent 74%),#0a0709!important}
+.a-inferno .arch{position:absolute;left:50%;bottom:16%;translate:-50% 0;
+  border:2px solid var(--accent);border-bottom:0;
+  border-radius:50% 50% 0 0/72% 72% 0 0;
+  box-shadow:0 0 24px -4px color-mix(in srgb,var(--accent) 70%,transparent),
+             inset 0 0 34px -12px color-mix(in srgb,var(--accent) 60%,transparent)}
+.a-inferno .arch:nth-child(1){width:88%;height:104%;opacity:.20}
+.a-inferno .arch:nth-child(2){width:64%;height:80%;opacity:.34}
+.a-inferno .arch:nth-child(3){width:43%;height:58%;opacity:.52}
+.a-inferno .arch:nth-child(4){width:25%;height:36%;opacity:.78}
+/* platform floor + receding rails */
+.a-inferno .floor{position:absolute;left:0;right:0;bottom:0;height:16%;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 26%,transparent),transparent 85%);
+  border-top:1px solid color-mix(in srgb,var(--accent) 46%,transparent)}
+.a-inferno .core{position:absolute;left:50%;bottom:16%;translate:-50% 0;width:23%;height:32%;
+  background:radial-gradient(58% 100% at 50% 100%,#fff0c4,#ffb347 26%,var(--accent) 52%,transparent 76%);
+  filter:blur(4px);animation:breathe 4.4s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.6;transform:scaleY(1.2)}}
+.a-inferno .ember{position:absolute;bottom:14%;width:3px;height:3px;border-radius:50%;
+  background:#ffe9a8;box-shadow:0 0 9px 2px var(--accent);animation:rise linear infinite}
+@keyframes rise{
+  0%{transform:translateY(0) scale(.5);opacity:0}
+  16%{opacity:1}
+  100%{transform:translateY(-190px) translateX(var(--dx,0)) scale(.2);opacity:0}
+}
+/* Dante, mid-descent — head, body, trailing coat */
+.a-inferno .figure{position:absolute;left:50%;bottom:16%;translate:-50% 0;width:15px;height:40px;
+  background:#05060a;clip-path:polygon(38% 0,62% 0,70% 16%,64% 26%,84% 52%,74% 100%,26% 100%,18% 52%,36% 26%,30% 16%);
+  filter:drop-shadow(0 0 12px rgba(5,6,10,.95)) drop-shadow(0 0 26px rgba(255,92,34,.28))}
+
+/* — WORDLE: five tiles flipping through their verdicts — */
+.a-wordle{display:grid;place-items:center}
+.a-wordle .row{display:flex;gap:8px;perspective:600px}
+.a-wordle .t{width:42px;height:42px;display:grid;place-items:center;border-radius:5px;
+  border:2px solid #3a3f4b;color:#fff;font-weight:800;font-size:1.15rem;
+  transform-style:preserve-3d;animation:flip 5.6s var(--ease) infinite}
+.a-wordle .t:nth-child(1){animation-delay:0s}
+.a-wordle .t:nth-child(2){animation-delay:.16s}
+.a-wordle .t:nth-child(3){animation-delay:.32s}
+.a-wordle .t:nth-child(4){animation-delay:.48s}
+.a-wordle .t:nth-child(5){animation-delay:.64s}
+@keyframes flip{
+  0%,8%{transform:rotateX(0);background:transparent;border-color:#3a3f4b}
+  18%{transform:rotateX(90deg)}
+  28%,72%{transform:rotateX(0);background:var(--v);border-color:var(--v)}
+  82%{transform:rotateX(90deg)}
+  92%,100%{transform:rotateX(0);background:transparent;border-color:#3a3f4b}
+}
+
+/* — FINANCE: a portfolio line drawing itself over bars — */
+.a-finance{padding:22px 24px 0}
+.a-finance .bars{position:absolute;inset:auto 24px 20px 24px;height:52%;display:flex;
+  align-items:flex-end;gap:7px}
+.a-finance .bars i{flex:1;border-radius:3px 3px 0 0;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 42%,transparent),transparent);
+  animation:grow 3.4s var(--ease) infinite alternate}
+.a-finance svg{position:absolute;inset:14px 24px 20px 24px;width:calc(100% - 48px);height:auto;overflow:visible}
+.a-finance path{stroke:var(--accent);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 0 8px color-mix(in srgb,var(--accent) 70%,transparent));
+  stroke-dasharray:340;stroke-dashoffset:340;animation:draw 4.2s var(--ease) infinite}
+@keyframes draw{0%{stroke-dashoffset:340}45%,88%{stroke-dashoffset:0}100%{stroke-dashoffset:340}}
+@keyframes grow{from{transform:scaleY(.55);transform-origin:bottom}to{transform:scaleY(1);transform-origin:bottom}}
+.a-finance .ret{position:absolute;top:16px;right:24px;font-family:var(--mono);font-size:.66rem;
+  letter-spacing:.1em;color:color-mix(in srgb,var(--accent) 85%,#fff)}
+
+/* — RUNTRACK: a pace ring closing — */
+.a-runtrack{display:grid;place-items:center}
+.a-runtrack .ring{position:relative;width:112px;height:112px}
+.a-runtrack svg{transform:rotate(-90deg)}
+.a-runtrack .trk{stroke:rgba(255,255,255,.10);stroke-width:9;fill:none}
+.a-runtrack .val{stroke:var(--accent);stroke-width:9;fill:none;stroke-linecap:round;
+  stroke-dasharray:314;stroke-dashoffset:314;
+  filter:drop-shadow(0 0 9px color-mix(in srgb,var(--accent) 75%,transparent));
+  animation:close 4.6s var(--ease) infinite}
+@keyframes close{0%{stroke-dashoffset:314}55%,90%{stroke-dashoffset:74}100%{stroke-dashoffset:314}}
+.a-runtrack .read{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.a-runtrack .read b{display:block;font-family:var(--mono);font-size:1.1rem;color:#fff;letter-spacing:-.02em}
+.a-runtrack .read span{font-family:var(--mono);font-size:.55rem;letter-spacing:.18em;color:var(--text-3)}
+
+/* — HVAC: airflow sweeping through a grille — */
+.a-hvac .grille{position:absolute;inset:0;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.055) 0 2px,transparent 2px 11px)}
+.a-hvac .flow{position:absolute;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  animation:sweepx 3s linear infinite}
+.a-hvac .scan{position:absolute;top:0;bottom:0;width:110px;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent) 18%,transparent),transparent);
+  animation:sweepx 4.4s linear infinite}
+@keyframes sweepx{from{transform:translateX(-130%)}to{transform:translateX(560%)}}
+.a-hvac .kw{position:absolute;left:20px;bottom:18px;font-family:var(--mono);font-size:.66rem;
+  letter-spacing:.13em;color:color-mix(in srgb,var(--accent) 88%,#fff)}
+
+/* — WHACK-A-DOG: pups popping from holes — */
+.a-dog{display:grid;place-items:center;
+  background:radial-gradient(120% 130% at 50% 110%,#3f6b2a,#12200d 70%)!important}
+.a-dog .holes{display:flex;gap:20px;align-items:flex-end}
+.a-dog .hole{position:relative;width:56px;height:26px;border-radius:50%;
+  background:#0e1408;box-shadow:inset 0 4px 9px rgba(0,0,0,.85);overflow:hidden}
+.a-dog .pup{position:absolute;left:50%;bottom:-2px;translate:-50% 0;font-size:26px;line-height:1;
+  transform:translateY(28px);animation:pop 3.6s var(--ease) infinite}
+.a-dog .hole:nth-child(2) .pup{animation-delay:1.2s}
+.a-dog .hole:nth-child(3) .pup{animation-delay:2.4s}
+@keyframes pop{0%,4%{transform:translateY(28px)}14%,30%{transform:translateY(-2px)}40%,100%{transform:translateY(28px)}}
+
+/* — PAWN SHOP: the three golden balls, swinging — */
+.a-pawn{display:grid;place-items:center}
+.a-pawn .sign{position:relative;display:flex;gap:12px;transform-origin:50% -46px;
+  animation:swing 5.2s ease-in-out infinite}
+.a-pawn .sign::before{content:"";position:absolute;left:50%;top:-46px;translate:-50% 0;
+  width:1px;height:46px;background:linear-gradient(180deg,transparent,var(--line-hi))}
+.a-pawn .ball{width:34px;height:34px;border-radius:50%;
+  background:radial-gradient(30% 30% at 34% 28%,#ffe9a8,var(--accent) 55%,#7a5a05);
+  box-shadow:0 0 18px -2px color-mix(in srgb,var(--accent) 60%,transparent)}
+.a-pawn .ball:nth-child(2){margin-top:11px}
+@keyframes swing{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+
+/* ─────────────────────────────────────────────────────────────
+   FOOTER
+   ───────────────────────────────────────────────────────────── */
+.foot{border-top:1px solid var(--line);padding:44px 0 60px;color:var(--text-3)}
+.foot__in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.foot a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--line)}
+.foot a:hover{color:var(--text);border-color:currentColor}
+
+/* ─────────────────────────────────────────────────────────────
+   MOTION PREFERENCES
+   ───────────────────────────────────────────────────────────── */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+  .card{opacity:1;transform:none}
+  .a-finance path{stroke-dashoffset:0}
+  .a-runtrack .val{stroke-dashoffset:74}
+  .a-wordle .t{background:var(--v);border-color:var(--v)}
+  .a-dog .pup{transform:translateY(-2px)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="aura" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top">
+      <span class="brand__mark">TG</span>
+      <span>Trent&nbsp;Gauci</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#work">The&nbsp;work</a>
+      <a class="opt" href="#games">Games</a>
+      <a class="opt" href="#tools">Tools</a>
+      <a href="https://github.com/aiappbulder-hub">GitHub&nbsp;↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ══ HERO ══ -->
+  <section class="wrap hero">
+    <span class="kicker mono"><span class="dot"></span> Seven shipped · Built with Claude Code</span>
+
+    <h1>Small apps,<br><span class="sweep">sharp edges.</span></h1>
+
+    <p class="hero__sub">
+      A platformer that walks Dante down a subway line. A Wordle clone that will tell you the
+      answer if you ask nicely. Twelve running calculators. A rebate estimator for HVAC quotes.
+      <b>No frameworks, no build steps</b> — mostly one very determined <code>index.html</code> apiece.
+    </p>
+
+    <div class="stats">
+      <div class="stat"><b>7</b><span class="mono">Projects</span></div>
+      <div class="stat"><b>6</b><span class="mono">Playable now</span></div>
+      <div class="stat"><b>3</b><span class="mono">Install to phone</span></div>
+      <div class="stat"><b>0</b><span class="mono">Dependencies</span></div>
+    </div>
+  </section>
+
+  <!-- ══ TICKER ══ -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__row">
+      <span class="mono">Inferno <i>◆</i> Wordle <i>◆</i> Finance Dashboard <i>◆</i> RunTrack <i>◆</i> HVAC Sales Tool <i>◆</i> Whack-a-Dog <i>◆</i> Pawn Shop <i>◆</i></span>
+      <span class="mono">Inferno <i>◆</i> Wordle <i>◆</i> Finance Dashboard <i>◆</i> RunTrack <i>◆</i> HVAC Sales Tool <i>◆</i> Whack-a-Dog <i>◆</i> Pawn Shop <i>◆</i></span>
+    </div>
+  </div>
+
+  <!-- ══ FILTER ══ -->
+  <section class="wrap bar" id="work">
+    <h2>Everything I&rsquo;ve shipped</h2>
+    <div class="chips" role="group" aria-label="Filter projects">
+      <button class="chip" data-filter="all"  aria-pressed="true">All <small>7</small></button>
+      <button class="chip" data-filter="game" aria-pressed="false">Games <small>4</small></button>
+      <button class="chip" data-filter="tool" aria-pressed="false">Tools <small>3</small></button>
+      <button class="chip" data-filter="pwa"  aria-pressed="false">Installable <small>3</small></button>
+    </div>
+  </section>
+
+  <!-- ══ GRID ══ -->
+  <section class="wrap">
+    <div class="grid" id="grid">
+
+      <!-- INFERNO -->
+      <article class="card card--wide" id="games" data-tags="game" style="--accent:#ff5c22">
+        <div class="art a-inferno" aria-hidden="true">
+          <span class="arch"></span><span class="arch"></span><span class="arch"></span><span class="arch"></span>
+          <span class="core"></span>
+          <span class="floor"></span>
+          <span class="figure"></span>
+          <span class="ember" style="left:18%;--dx:14px;animation-duration:5.1s;animation-delay:0s"></span>
+          <span class="ember" style="left:27%;--dx:-9px;animation-duration:6.4s;animation-delay:.7s"></span>
+          <span class="ember" style="left:36%;--dx:18px;animation-duration:4.6s;animation-delay:1.9s"></span>
+          <span class="ember" style="left:44%;--dx:-14px;animation-duration:7.1s;animation-delay:.3s"></span>
+          <span class="ember" style="left:52%;--dx:8px;animation-duration:5.6s;animation-delay:2.6s"></span>
+          <span class="ember" style="left:59%;--dx:-17px;animation-duration:6.9s;animation-delay:1.2s"></span>
+          <span class="ember" style="left:67%;--dx:12px;animation-duration:4.9s;animation-delay:3.1s"></span>
+          <span class="ember" style="left:76%;--dx:-6px;animation-duration:6.1s;animation-delay:2.1s"></span>
+          <span class="ember" style="left:84%;--dx:16px;animation-duration:5.4s;animation-delay:3.8s"></span>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Cinematic platformer</span>
+            <span class="tag">2D + WebGL</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/inferno/">Inferno</a></h3>
+          <p class="desc">
+            Dante&rsquo;s <i>Inferno</i>, canto by canto, restaged as a descent through a subway system —
+            in the exact grammar of <i>Another World</i> (1991). Hell is the transit network under the city,
+            Virgil is a station attendant, and every circle is a deeper, stranger line. Seventeen screens,
+            then the story keeps going in real 3D: <i>Purgatorio</i>, a Three.js chapter with dynamic shadows
+            and a rising dawn.
+          </p>
+          <ul class="feats">
+            <li>Tap to shoot · hold to shield · long-hold to charge</li>
+            <li>Narrated, with subtitles</li>
+            <li>Score descends a root note per circle</li>
+            <li>Touch controls on phones</li>
+          </ul>
+          <div class="actions">
+            <span class="go">Begin the descent
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/inferno">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- WORDLE -->
+      <article class="card" data-tags="game" style="--accent:#6aaa64">
+        <div class="art a-wordle" aria-hidden="true">
+          <div class="row">
+            <span class="t" style="--v:#6aaa64">C</span>
+            <span class="t" style="--v:#3a3f4b">R</span>
+            <span class="t" style="--v:#c9b458">A</span>
+            <span class="t" style="--v:#6aaa64">N</span>
+            <span class="t" style="--v:#3a3f4b">E</span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Word game</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Wordle/">Wordle</a></h3>
+          <p class="desc">
+            Six guesses, five letters, the usual green-and-yellow cruelty — plus two buttons the
+            original never gave you. <b>Clue</b> describes what the word means. <b>Possible words</b>
+            lists every answer still consistent with your feedback, and the real one is always in there.
+          </p>
+          <ul class="feats">
+            <li>12,650-word dictionary</li>
+            <li>Definitions when you finish</li>
+            <li>Physical + on-screen keyboard</li>
+          </ul>
+          <div class="actions">
+            <span class="go">Play
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/Wordle">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- FINANCE DASHBOARD -->
+      <article class="card card--wide" id="tools" data-tags="tool pwa" style="--accent:#10b981">
+        <div class="art a-finance" aria-hidden="true">
+          <div class="bars">
+            <i style="animation-delay:0s"></i><i style="animation-delay:.2s"></i><i style="animation-delay:.4s"></i>
+            <i style="animation-delay:.6s"></i><i style="animation-delay:.8s"></i><i style="animation-delay:1s"></i>
+            <i style="animation-delay:1.2s"></i><i style="animation-delay:1.4s"></i><i style="animation-delay:1.6s"></i>
+            <i style="animation-delay:1.8s"></i><i style="animation-delay:2s"></i><i style="animation-delay:2.2s"></i>
+          </div>
+          <svg viewBox="0 0 320 90" preserveAspectRatio="none" role="presentation">
+            <path d="M0,78 L36,64 L72,70 L108,48 L144,55 L180,32 L216,38 L252,18 L288,22 L320,4"/>
+          </svg>
+          <span class="ret">RETIREMENT · COUNTING DOWN</span>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Personal finance</span>
+            <span class="tag">PWA</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Finance-Dashboard/">Finance Dashboard</a></h3>
+          <p class="desc">
+            The whole picture on one screen: property portfolio, investments, super projections, and a
+            retirement countdown that is either motivating or upsetting depending on the day. Installs
+            straight to the home screen from the browser and works offline from there.
+          </p>
+          <ul class="feats">
+            <li>Property portfolio tracker</li>
+            <li>Investment dashboard</li>
+            <li>Super projections</li>
+            <li>Service worker · offline</li>
+            <li>Add to Home Screen</li>
+          </ul>
+          <div class="actions">
+            <span class="go">Open the dashboard
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/Finance-Dashboard">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- RUNTRACK -->
+      <article class="card" data-tags="tool pwa" style="--accent:#14b8a6">
+        <div class="art a-runtrack" aria-hidden="true">
+          <div class="ring">
+            <svg width="112" height="112" viewBox="0 0 112 112">
+              <circle class="trk" cx="56" cy="56" r="50"/>
+              <circle class="val" cx="56" cy="56" r="50"/>
+            </svg>
+            <div class="read"><div><b>4:52</b><span>MIN / KM</span></div></div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Running calculators</span>
+            <span class="tag">PWA</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Runtrack/">RunTrack</a></h3>
+          <p class="desc">
+            Twelve calculators every runner ends up googling mid-training-block, in one offline app —
+            pace, cadence, splits, race prediction, PB analysis, VO&#8322;max &amp; lactate, training paces,
+            age grading, hills, weight impact, calories, BMI. Then a <b>My Plan</b> tab to keep the numbers
+            that matter.
+          </p>
+          <ul class="feats">
+            <li>12 calculators</li>
+            <li>Race predictor</li>
+            <li>Age grading</li>
+            <li>Melbourne 2026</li>
+          </ul>
+          <div class="actions">
+            <span class="go">Run the numbers
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/Runtrack">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- HVAC -->
+      <article class="card" data-tags="tool pwa" style="--accent:#f97316">
+        <div class="art a-hvac" aria-hidden="true">
+          <span class="grille"></span>
+          <span class="scan"></span>
+          <span class="flow" style="top:26%;left:0;width:44%;animation-delay:0s"></span>
+          <span class="flow" style="top:44%;left:0;width:30%;animation-delay:.9s"></span>
+          <span class="flow" style="top:60%;left:0;width:38%;animation-delay:1.7s"></span>
+          <span class="flow" style="top:76%;left:0;width:24%;animation-delay:2.4s"></span>
+          <span class="kw">SIZING · 7.1 kW · VEU ELIGIBLE</span>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Field sales tool</span>
+            <span class="tag">PWA</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/hvac-tool/">HVAC Sales Tool</a></h3>
+          <p class="desc">
+            Built for the quote you&rsquo;re writing while standing in someone&rsquo;s hallway. Size the
+            system room by room, estimate the VEU rebate, compare every gas scenario side by side,
+            and work down a sales checklist — on a phone, in a dark tactical UI that survives daylight.
+          </p>
+          <ul class="feats">
+            <li>Room-by-room sizing</li>
+            <li>VEU rebate estimator</li>
+            <li>Unit selection</li>
+            <li>Sales checklist</li>
+          </ul>
+          <div class="actions">
+            <span class="go">Open the tool
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/hvac-tool">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- WHACK-A-DOG -->
+      <article class="card" data-tags="game" style="--accent:#8bc34a">
+        <div class="art a-dog" aria-hidden="true">
+          <div class="holes">
+            <span class="hole"><span class="pup">🐶</span></span>
+            <span class="hole"><span class="pup">🐕</span></span>
+            <span class="hole"><span class="pup">😴</span></span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Arcade</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Whackadog/">Whack-a-Dog</a></h3>
+          <p class="desc">
+            Whack-a-mole where the moles are two very good dogs. Thirty seconds, three difficulties,
+            and a combo multiplier that climbs to ×5 if you never miss. Some pups pop up
+            <b>asleep</b> — whack one and you lose points. Let sleeping dogs lie.
+          </p>
+          <ul class="feats">
+            <li>×5 combo multiplier</li>
+            <li>Web Audio SFX</li>
+            <li>Local best score</li>
+          </ul>
+          <div class="actions">
+            <span class="go">Start whacking
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/Whackadog">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- PAWN SHOP -->
+      <article class="card" data-tags="game" style="--accent:#d4a017">
+        <div class="art a-pawn" aria-hidden="true">
+          <div class="sign">
+            <span class="ball"></span><span class="ball"></span><span class="ball"></span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--dev">In development</span>
+            <span class="tag tag--kind">Godot 4 · commercial</span>
+          </div>
+          <h3 class="title"><a href="https://github.com/aiappbulder-hub/Pawnshop">Pawn Shop</a></h3>
+          <p class="desc">
+            Run the counter: appraise what walks through the door, haggle, and decide what it&rsquo;s
+            really worth. Built in Godot 4 on a strict data-driven spine — pricing lives behind a
+            strategy interface, and every item, category and condition tier is a resource file, so
+            new content is a data change and never a code change.
+          </p>
+          <ul class="feats">
+            <li>GDScript</li>
+            <li>Open/closed pricing strategies</li>
+            <li>No hardcoded gameplay values</li>
+          </ul>
+          <div class="actions">
+            <span class="go">Read the architecture
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <p class="mono">Trent Gauci — built with Claude Code</p>
+    <p><a href="https://github.com/aiappbulder-hub">github.com/aiappbulder-hub</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cards  = Array.prototype.slice.call(document.querySelectorAll(".card"));
+
+  /* ── Reveal on scroll ─────────────────────────────────────── */
+  function revealAll(){ cards.forEach(function(c){ c.classList.add("in"); }); }
+
+  if ("IntersectionObserver" in window && !reduce) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -40px 0px", threshold: .01 });
+    cards.forEach(function(c){ io.observe(c); });
+    /* Safety net: nothing stays invisible, whatever the scroll does. */
+    window.addEventListener("load", function(){ setTimeout(revealAll, 2500); });
+  } else {
+    revealAll();
+  }
+
+  /* ── Pointer spotlight + subtle tilt ──────────────────────── */
+  if (!reduce && window.matchMedia("(hover: hover)").matches) {
+    cards.forEach(function(card){
+      var frame = 0;
+      card.addEventListener("pointermove", function(ev){
+        if (frame) return;
+        frame = requestAnimationFrame(function(){
+          frame = 0;
+          var r  = card.getBoundingClientRect();
+          var px = (ev.clientX - r.left) / r.width;
+          var py = (ev.clientY - r.top)  / r.height;
+          card.style.setProperty("--mx", (px * 100) + "%");
+          card.style.setProperty("--my", (py * 100) + "%");
+          card.style.transform =
+            "perspective(900px) rotateX(" + ((.5 - py) * 3.4).toFixed(2) + "deg)" +
+            " rotateY(" + ((px - .5) * 3.4).toFixed(2) + "deg) translateY(-4px)";
+        });
+      });
+      card.addEventListener("pointerleave", function(){
+        if (frame) { cancelAnimationFrame(frame); frame = 0; }
+        card.style.transform = "";
+      });
+    });
+  }
+
+  /* ── Filter chips ─────────────────────────────────────────── */
+  var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
+  chips.forEach(function(chip){
+    chip.addEventListener("click", function(){
+      var want = chip.dataset.filter;
+      chips.forEach(function(c){ c.setAttribute("aria-pressed", String(c === chip)); });
+      cards.forEach(function(card){
+        var tags = (card.dataset.tags || "").split(/\s+/);
+        var show = want === "all" || tags.indexOf(want) !== -1;
+        card.classList.toggle("out", !show);
+        card.querySelectorAll("a").forEach(function(a){
+          if (show) { a.removeAttribute("tabindex"); }
+          else      { a.setAttribute("tabindex", "-1"); }
+        });
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
