@@ -1,7 +1,7 @@
 # Landing
 
 The front door for everything at [github.com/aiappbulder-hub](https://github.com/aiappbulder-hub) —
-a single-page showcase of all seven apps, with a live link and source link for each.
+a single-page showcase of all eight apps, with a live link and source link for each.
 
 **Live:** https://aiappbulder-hub.github.io/Landing/ *(once Pages is enabled — see below)*
 
@@ -16,6 +16,7 @@ a single-page showcase of all seven apps, with a live link and source link for e
 | **HVAC Sales Tool** | Room-by-room sizing, VEU rebate estimator, unit selection | [open](https://aiappbulder-hub.github.io/hvac-tool/) · [src](https://github.com/aiappbulder-hub/hvac-tool) |
 | **Whack-a-Dog** | Whack-a-mole with dogs, combos, and sleeping-dog penalties | [play](https://aiappbulder-hub.github.io/Whackadog/) · [src](https://github.com/aiappbulder-hub/Whackadog) |
 | **Pawn Master** | Inherit Merrick's and its $18,000 debt; spot the forgeries — installable PWA | [play](https://aiappbulder-hub.github.io/Pawnshop/) · [src](https://github.com/aiappbulder-hub/Pawnshop) |
+| **FocusTree** | Ten anti-burnout methods in one app; finish a task and it plants a tree | [open](https://aiappbulder-hub.github.io/focustree/) · [src](https://github.com/aiappbulder-hub/focustree) |
 
 ### A note on the Inferno link
 
