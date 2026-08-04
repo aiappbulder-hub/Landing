@@ -41,6 +41,9 @@ Design notes:
   gets five tiles flipping through their verdicts, RunTrack a closing pace ring, Finance a
   self-drawing portfolio line, HVAC an airflow scan across a grille, Whack-a-Dog pups popping
   from holes, Pawn Shop the three golden balls on a swinging sign.
+- Deliberately no hero: the page opens straight onto the filter chips and the grid, so the
+  apps are the first thing on screen rather than a screenful of copy. Artwork panels are kept
+  small (104px) so more of the set is visible at once.
 - Pointer-tracked spotlight and a subtle 3D tilt on hover; filter chips for Games / Tools /
   Installable; scroll reveal with a timeout safety net so nothing can stay invisible.
 - Fully responsive, and every animation is disabled under `prefers-reduced-motion: reduce`.
@@ -62,6 +65,6 @@ to `main`. To turn it on: **Settings → Pages → Source → GitHub Actions**.
 ## Adding a new app
 
 Copy any `<article class="card">` block in `index.html`, change the `--accent` colour, the
-`data-tags` (`game`, `tool`, `pwa`), the copy, and the two links. Bump the counts in the hero
-stats and the filter chips. If you want bespoke artwork, add a matching `.a-yourapp` block in
+`data-tags` (`game`, `tool`, `pwa`), the copy, and the two links. Bump the counts on the filter
+chips. If you want bespoke artwork, add a matching `.a-yourapp` block in
 the artwork section of the stylesheet — otherwise the accent gradient alone still looks fine.
