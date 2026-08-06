@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Apps by aiappbulder-hub</title>
-<meta name="description" content="Eight browser apps and games — all live, nothing to install.">
+<meta name="description" content="Nine browser apps and games — all live, nothing to install.">
 <meta name="theme-color" content="#07080c">
 <meta property="og:title" content="Apps by aiappbulder-hub">
-<meta property="og:description" content="Eight browser apps and games — all live, nothing to install.">
+<meta property="og:description" content="Nine browser apps and games — all live, nothing to install.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2307080c'/%3E%3Cpath d='M28 68V32h13l9 22 9-22h13v36H61V47l-8 21h-6l-8-21v21z' fill='%23ff7a3d'/%3E%3C/svg%3E">
 
@@ -86,26 +86,12 @@ code{font-family:var(--mono);font-size:.86em;color:var(--text);
 main,footer{position:relative;z-index:2}
 
 /* ─────────────────────────────────────────────────────────────
-   FILTER BAR
-   ───────────────────────────────────────────────────────────── */
-.bar{display:flex;align-items:center;justify-content:flex-start;gap:16px;flex-wrap:wrap;
-  padding-block:20px 14px}
-.bar h2{font-size:clamp(1.2rem,2.6vw,1.6rem)}
-.chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{font-family:var(--mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;
-  background:var(--panel);border:1px solid var(--line);color:var(--text-2);
-  padding:9px 15px;border-radius:99px;cursor:pointer;transition:all .22s var(--ease)}
-.chip:hover{border-color:var(--line-hi);color:var(--text)}
-.chip[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:var(--ink);font-weight:700}
-.chip small{opacity:.55;margin-left:5px}
-
-/* ─────────────────────────────────────────────────────────────
    GRID + CARDS
    ───────────────────────────────────────────────────────────── */
-.grid{display:grid;gap:18px;grid-template-columns:1fr;padding-bottom:clamp(50px,9vh,90px)}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;
+  padding-block:clamp(20px,3vh,30px) clamp(50px,9vh,90px)}
 @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:1240px){.grid{grid-template-columns:repeat(4,1fr)}}
 
 .card{
   position:relative;isolation:isolate;overflow:hidden;
@@ -131,9 +117,6 @@ main,footer{position:relative;z-index:2}
 /* reveal on scroll */
 .card{opacity:0;transform:translateY(26px)}
 .card.in{opacity:1;transform:none}
-
-/* dimmed by filter */
-.card.out{opacity:.13;filter:grayscale(1) blur(1px);pointer-events:none;transform:scale(.97)}
 
 /* ---- ART PANEL ---- */
 .art{position:relative;height:76px;flex:none;overflow:hidden;
@@ -327,9 +310,21 @@ main,footer{position:relative;z-index:2}
   100%{transform:scale(1);opacity:1}
 }
 
-/* ─────────────────────────────────────────────────────────────
-   FOOTER
-   ───────────────────────────────────────────────────────────── */
+/* — FASTEST FINGER: the needle snapping into the target window — */
+.a-finger{display:grid;place-items:center;align-content:center;gap:7px}
+.a-finger .read{font-family:var(--mono);font-size:.92rem;font-weight:700;letter-spacing:-.02em;
+  color:var(--accent);text-shadow:0 0 12px color-mix(in srgb,var(--accent) 55%,transparent);
+  animation:lock 3.6s var(--ease) infinite}
+@keyframes lock{0%,52%{opacity:.34}60%,100%{opacity:1}}
+.a-finger .track{position:relative;width:104px;height:5px;border-radius:3px;
+  background:rgba(255,255,255,.09)}
+.a-finger .win{position:absolute;top:0;bottom:0;left:46%;width:13%;border-radius:3px;
+  background:color-mix(in srgb,var(--accent) 62%,transparent);
+  box-shadow:0 0 9px color-mix(in srgb,var(--accent) 60%,transparent)}
+.a-finger .needle{position:absolute;top:-4px;bottom:-4px;width:2px;border-radius:1px;background:#fff;
+  box-shadow:0 0 7px rgba(255,255,255,.8);animation:snap 3.6s var(--ease) infinite}
+@keyframes snap{0%{left:1%}52%,100%{left:50%}}
+
 .foot{border-top:1px solid var(--line);padding:44px 0 60px;color:var(--text-3)}
 .foot__in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 .foot a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--line)}
@@ -349,6 +344,8 @@ main,footer{position:relative;z-index:2}
   .a-focustree .tree{transform:none;opacity:1}
   .a-focustree .count b{opacity:0}
   .a-focustree .count b.go{opacity:1}
+  .a-finger .needle{left:50%}
+  .a-finger .read{opacity:1}
 }
 </style>
 </head>
@@ -361,16 +358,6 @@ main,footer{position:relative;z-index:2}
 
 
 <main id="top">
-
-  <!-- ══ FILTER ══ -->
-  <section class="wrap bar" id="work">
-    <div class="chips" role="group" aria-label="Filter projects">
-      <button class="chip" data-filter="all"  aria-pressed="true">All <small>8</small></button>
-      <button class="chip" data-filter="game" aria-pressed="false">Games <small>4</small></button>
-      <button class="chip" data-filter="tool" aria-pressed="false">Tools <small>4</small></button>
-      <button class="chip" data-filter="pwa"  aria-pressed="false">Installable <small>4</small></button>
-    </div>
-  </section>
 
   <!-- ══ GRID ══ -->
   <section class="wrap">
@@ -632,6 +619,32 @@ main,footer{position:relative;z-index:2}
         </div>
       </article>
 
+      <!-- FASTEST FINGER -->
+      <article class="card" data-tags="game" style="--accent:#46e8c4">
+        <div class="art a-finger" aria-hidden="true">
+          <span class="read">3.000</span>
+          <span class="track"><span class="win"></span><span class="needle"></span></span>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Reflex game</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/fastestfinger/">Fastest Finger</a></h3>
+          <p class="desc">
+            A clock runs, you tap to stop it, and only the millisecond gap to the target counts.
+            Ten worlds and a window that keeps shrinking — by the last ones the clock hides, or
+            never shows at all.
+          </p>
+          <div class="actions">
+            <span class="go">Stop the clock
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/fastestfinger">Source</a>
+          </div>
+        </div>
+      </article>
+
     </div>
   </section>
 </main>
@@ -690,23 +703,6 @@ main,footer{position:relative;z-index:2}
     });
   }
 
-  /* ── Filter chips ─────────────────────────────────────────── */
-  var chips = Array.prototype.slice.call(document.querySelectorAll(".chip"));
-  chips.forEach(function(chip){
-    chip.addEventListener("click", function(){
-      var want = chip.dataset.filter;
-      chips.forEach(function(c){ c.setAttribute("aria-pressed", String(c === chip)); });
-      cards.forEach(function(card){
-        var tags = (card.dataset.tags || "").split(/\s+/);
-        var show = want === "all" || tags.indexOf(want) !== -1;
-        card.classList.toggle("out", !show);
-        card.querySelectorAll("a").forEach(function(a){
-          if (show) { a.removeAttribute("tabindex"); }
-          else      { a.setAttribute("tabindex", "-1"); }
-        });
-      });
-    });
-  });
 })();
 </script>
 

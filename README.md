@@ -1,7 +1,7 @@
 # Landing
 
 The front door for everything at [github.com/aiappbulder-hub](https://github.com/aiappbulder-hub) —
-a single-page showcase of all eight apps, with a live link and source link for each.
+a single-page showcase of all nine apps, with a live link and source link for each.
 
 **Live:** https://aiappbulder-hub.github.io/Landing/ *(once Pages is enabled — see below)*
 
@@ -16,6 +16,7 @@ a single-page showcase of all eight apps, with a live link and source link for e
 | **HVAC Sales Tool** | Room-by-room sizing, VEU rebate estimator, unit selection | [open](https://aiappbulder-hub.github.io/hvac-tool/) · [src](https://github.com/aiappbulder-hub/hvac-tool) |
 | **Whack-a-Dog** | Whack-a-mole with dogs, combos, and sleeping-dog penalties | [play](https://aiappbulder-hub.github.io/Whackadog/) · [src](https://github.com/aiappbulder-hub/Whackadog) |
 | **Pawn Master** | Inherit Merrick's and its $18,000 debt; spot the forgeries — installable PWA | [play](https://aiappbulder-hub.github.io/Pawnshop/) · [src](https://github.com/aiappbulder-hub/Pawnshop) |
+| **Fastest Finger** | Millisecond reflex game — stop the clock on target across ten worlds | [play](https://aiappbulder-hub.github.io/fastestfinger/) · [src](https://github.com/aiappbulder-hub/fastestfinger) |
 | **FocusTree** | Ten anti-burnout methods in one app; finish a task and it plants a tree | [open](https://aiappbulder-hub.github.io/focustree/) · [src](https://github.com/aiappbulder-hub/focustree) |
 
 ### A note on the Inferno link
@@ -40,12 +41,14 @@ Design notes:
   Inferno gets a receding tunnel with rising embers and a silhouette on the platform, Wordle
   gets five tiles flipping through their verdicts, RunTrack a closing pace ring, Finance a
   self-drawing portfolio line, HVAC an airflow scan across a grille, Whack-a-Dog pups popping
-  from holes, Pawn Shop the three golden balls on a swinging sign.
-- Deliberately no hero: the page opens straight onto the filter chips and the grid, so the
-  apps are the first thing on screen rather than a screenful of copy. Artwork panels are kept
-  small (104px) so more of the set is visible at once.
-- Pointer-tracked spotlight and a subtle 3D tilt on hover; filter chips for Games / Tools /
-  Installable; scroll reveal with a timeout safety net so nothing can stay invisible.
+  from holes, Pawn Master the three golden balls on a swinging sign, FocusTree the 5-4-3-2-1
+  count-in and a forest arriving one task at a time, and Fastest Finger a needle snapping into
+  the target window.
+- Deliberately bare above the grid: no banner, no hero, no filter bar. The apps are the first
+  thing on screen. Artwork panels are kept small (76px) so the whole set fits at once — nine
+  apps land as a clean 3x3 on a desktop.
+- Pointer-tracked spotlight and a subtle 3D tilt on hover; scroll reveal with a timeout safety
+  net so nothing can stay invisible.
 - Fully responsive, and every animation is disabled under `prefers-reduced-motion: reduce`.
 
 ## Running it locally
@@ -60,11 +63,13 @@ Or just open `index.html` in a browser.
 ## Enabling GitHub Pages
 
 The included workflow (`.github/workflows/deploy-pages.yml`) publishes the site on every push
-to `main`. To turn it on: **Settings → Pages → Source → GitHub Actions**.
+to `main` or to the working branch `claude/landing-page-apps-w7l6ah` (this repo has no `main`,
+so the workflow would never fire without the second trigger). Pages is already enabled; the
+source is **Settings → Pages → Source → GitHub Actions**.
 
 ## Adding a new app
 
 Copy any `<article class="card">` block in `index.html`, change the `--accent` colour, the
-`data-tags` (`game`, `tool`, `pwa`), the copy, and the two links. Bump the counts on the filter
-chips. If you want bespoke artwork, add a matching `.a-yourapp` block in
+`data-tags` (`game`, `tool`, `pwa` — kept as metadata, no longer used for filtering), the copy,
+and the two links. If you want bespoke artwork, add a matching `.a-yourapp` block in
 the artwork section of the stylesheet — otherwise the accent gradient alone still looks fine.
