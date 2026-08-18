@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Apps by aiappbulder-hub</title>
-<meta name="description" content="Nine browser apps and games — all live, nothing to install.">
+<meta name="description" content="Ten browser apps and games — all live, nothing to install.">
 <meta name="theme-color" content="#07080c">
 <meta property="og:title" content="Apps by aiappbulder-hub">
-<meta property="og:description" content="Nine browser apps and games — all live, nothing to install.">
+<meta property="og:description" content="Ten browser apps and games — all live, nothing to install.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2307080c'/%3E%3Cpath d='M28 68V32h13l9 22 9-22h13v36H61V47l-8 21h-6l-8-21v21z' fill='%23ff7a3d'/%3E%3C/svg%3E">
 
@@ -92,6 +92,7 @@ main,footer{position:relative;z-index:2}
   padding-block:clamp(20px,3vh,30px) clamp(50px,9vh,90px)}
 @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1240px){.grid{grid-template-columns:repeat(4,1fr)}}
 
 .card{
   position:relative;isolation:isolate;overflow:hidden;
@@ -325,6 +326,27 @@ main,footer{position:relative;z-index:2}
   box-shadow:0 0 7px rgba(255,255,255,.8);animation:snap 3.6s var(--ease) infinite}
 @keyframes snap{0%{left:1%}52%,100%{left:50%}}
 
+/* — SPANISH: the English prompt, the Spanish withheld until you've said it — */
+.a-spanish{display:grid;place-items:center;align-content:center;gap:4px}
+.a-spanish .en{font-size:.58rem;color:var(--text-3);letter-spacing:.01em}
+.a-spanish .es{font-size:.86rem;font-weight:800;letter-spacing:-.02em;
+  color:var(--accent);text-shadow:0 0 14px color-mix(in srgb,var(--accent) 45%,transparent);
+  animation:reveal 5.2s var(--ease) infinite}
+@keyframes reveal{
+  0%,34%{filter:blur(5px);opacity:.28}
+  46%,88%{filter:blur(0);opacity:1}
+  100%{filter:blur(5px);opacity:.28}
+}
+.a-spanish .wave{display:flex;align-items:flex-end;gap:2px;height:9px;margin-top:1px}
+.a-spanish .wave i{width:2px;border-radius:1px;background:color-mix(in srgb,var(--accent) 65%,transparent);
+  animation:speak 1.1s ease-in-out infinite}
+.a-spanish .wave i:nth-child(1){height:35%;animation-delay:0s}
+.a-spanish .wave i:nth-child(2){height:70%;animation-delay:.13s}
+.a-spanish .wave i:nth-child(3){height:100%;animation-delay:.26s}
+.a-spanish .wave i:nth-child(4){height:60%;animation-delay:.39s}
+.a-spanish .wave i:nth-child(5){height:30%;animation-delay:.52s}
+@keyframes speak{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+
 .foot{border-top:1px solid var(--line);padding:44px 0 60px;color:var(--text-3)}
 .foot__in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 .foot a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--line)}
@@ -346,6 +368,8 @@ main,footer{position:relative;z-index:2}
   .a-focustree .count b.go{opacity:1}
   .a-finger .needle{left:50%}
   .a-finger .read{opacity:1}
+  .a-spanish .es{filter:none;opacity:1}
+  .a-spanish .wave i{transform:scaleY(.7)}
 }
 </style>
 </head>
@@ -641,6 +665,33 @@ main,footer{position:relative;z-index:2}
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </span>
             <a class="src" href="https://github.com/aiappbulder-hub/fastestfinger">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- SPANISH -->
+      <article class="card" data-tags="tool" style="--accent:#e08a6b">
+        <div class="art a-spanish" aria-hidden="true">
+          <span class="en">I want to speak</span>
+          <span class="es">quiero hablar</span>
+          <span class="wave"><i></i><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Language course</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Spanish/">Spanish</a></h3>
+          <p class="desc">
+            Speaking-first Spanish, Michel Thomas style — prompts are English, the Spanish stays
+            hidden until you&rsquo;ve said it, and every lesson ends in a real conversation built
+            only from what you already know.
+          </p>
+          <div class="actions">
+            <span class="go">Start talking
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/Spanish">Source</a>
           </div>
         </div>
       </article>
