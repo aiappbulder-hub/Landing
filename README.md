@@ -1,7 +1,8 @@
 # Landing
 
 The front door for everything at [github.com/aiappbulder-hub](https://github.com/aiappbulder-hub) —
-a single-page showcase of all ten apps, with a live link and source link for each.
+a single-page showcase of all eleven, split into Games and Apps, with a live link and
+source link for each.
 
 **Live:** https://aiappbulder-hub.github.io/Landing/ *(once Pages is enabled — see below)*
 
@@ -17,6 +18,7 @@ a single-page showcase of all ten apps, with a live link and source link for eac
 | **Whack-a-Dog** | Whack-a-mole with dogs, combos, and sleeping-dog penalties | [play](https://aiappbulder-hub.github.io/Whackadog/) · [src](https://github.com/aiappbulder-hub/Whackadog) |
 | **Pawn Master** | Inherit Merrick's and its $18,000 debt; spot the forgeries — installable PWA | [play](https://aiappbulder-hub.github.io/Pawnshop/) · [src](https://github.com/aiappbulder-hub/Pawnshop) |
 | **Fastest Finger** | Millisecond reflex game — stop the clock on target across ten worlds | [play](https://aiappbulder-hub.github.io/fastestfinger/) · [src](https://github.com/aiappbulder-hub/fastestfinger) |
+| **Pocket Putt** | Eighteen holes of mini golf — drag to aim, past sand, water, ice and bumpers | [play](https://aiappbulder-hub.github.io/minigolf/) · [src](https://github.com/aiappbulder-hub/minigolf) |
 | **Spanish** | Speaking-first Spanish course, Michel Thomas method, with spaced review | [open](https://aiappbulder-hub.github.io/Spanish/) · [src](https://github.com/aiappbulder-hub/Spanish) |
 | **FocusTree** | Ten anti-burnout methods in one app; finish a task and it plants a tree | [open](https://aiappbulder-hub.github.io/focustree/) · [src](https://github.com/aiappbulder-hub/focustree) |
 
@@ -44,11 +46,14 @@ Design notes:
   self-drawing portfolio line, HVAC an airflow scan across a grille, Whack-a-Dog pups popping
   from holes, Pawn Master the three golden balls on a swinging sign, FocusTree the 5-4-3-2-1
   count-in and a forest arriving one task at a time, Fastest Finger a needle snapping into
-  the target window, and Spanish an English prompt with the Spanish blurred out until it
-  resolves, over a speaking waveform.
-- Deliberately bare above the grid: no banner, no hero, no filter bar. The apps are the first
-  thing on screen. Artwork panels are kept small (76px) so the whole set fits at once — all ten
-  apps fit on a single desktop screen.
+  the target window, Spanish an English prompt with the Spanish blurred out until it
+  resolves over a speaking waveform, and Pocket Putt a ball rolling into the cup past a
+  gold pin.
+- Deliberately bare above the grid: no banner, no hero, no filter bar. The work is the first
+  thing on screen. Artwork panels are kept small (76px) so a lot of the set fits at once.
+- **Two sections, Games and Apps**, headed by small monospace labels with a hairline rule
+  rather than large headings — the split is signposted without putting a wall of type back
+  above the cards. Six games and five apps land as 3+3 and 3+2 in the three-column layout.
 - Pointer-tracked spotlight and a subtle 3D tilt on hover; scroll reveal with a timeout safety
   net so nothing can stay invisible.
 - Fully responsive, and every animation is disabled under `prefers-reduced-motion: reduce`.
@@ -76,7 +81,8 @@ root and `.nojekyll` is committed, so GitHub's built-in builder publishes on eve
 
 ## Adding a new app
 
-Copy any `<article class="card">` block in `index.html`, change the `--accent` colour, the
-`data-tags` (`game`, `tool`, `pwa` — kept as metadata, no longer used for filtering), the copy,
-and the two links. If you want bespoke artwork, add a matching `.a-yourapp` block in
+Copy any `<article class="card">` block in `index.html` into whichever `.grid` it belongs to
+(Games or Apps), change the `--accent` colour, the `data-tags` (`game`, `tool`, `pwa` — kept as
+metadata, no longer used for filtering), the copy, and the two links. Bump the count in that
+section's `<h2 class="sect">`. If you want bespoke artwork, add a matching `.a-yourapp` block in
 the artwork section of the stylesheet — otherwise the accent gradient alone still looks fine.

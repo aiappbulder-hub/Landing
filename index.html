@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Apps by aiappbulder-hub</title>
-<meta name="description" content="Ten browser apps and games — all live, nothing to install.">
+<meta name="description" content="Eleven browser games and apps — all live, nothing to install.">
 <meta name="theme-color" content="#07080c">
 <meta property="og:title" content="Apps by aiappbulder-hub">
-<meta property="og:description" content="Ten browser apps and games — all live, nothing to install.">
+<meta property="og:description" content="Eleven browser games and apps — all live, nothing to install.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2307080c'/%3E%3Cpath d='M28 68V32h13l9 22 9-22h13v36H61V47l-8 21h-6l-8-21v21z' fill='%23ff7a3d'/%3E%3C/svg%3E">
 
@@ -88,11 +88,18 @@ main,footer{position:relative;z-index:2}
 /* ─────────────────────────────────────────────────────────────
    GRID + CARDS
    ───────────────────────────────────────────────────────────── */
-.grid{display:grid;gap:18px;grid-template-columns:1fr;
-  padding-block:clamp(20px,3vh,30px) clamp(50px,9vh,90px)}
+.sect{display:flex;align-items:center;gap:13px;
+  font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--text-3);line-height:1;
+  padding-block:clamp(26px,4vh,40px) 14px}
+.sect:first-child{padding-top:clamp(16px,2.5vh,24px)}
+.sect::after{content:"";flex:1;height:1px;background:var(--line)}
+.sect i{font-style:normal;opacity:.55}
+
+.grid{display:grid;gap:18px;grid-template-columns:1fr}
 @media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:1240px){.grid{grid-template-columns:repeat(4,1fr)}}
+main{padding-bottom:clamp(46px,8vh,80px)}
 
 .card{
   position:relative;isolation:isolate;overflow:hidden;
@@ -347,6 +354,29 @@ main,footer{position:relative;z-index:2}
 .a-spanish .wave i:nth-child(5){height:30%;animation-delay:.52s}
 @keyframes speak{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
 
+/* — POCKET PUTT: the putt dropping into the cup — */
+.a-golf{background:radial-gradient(130% 150% at 50% 135%,#2f7a43,#0e2f1c 68%)!important;
+  display:grid;place-items:center}
+.a-golf .green{position:relative;width:118px;height:36px}
+.a-golf .aim{position:absolute;left:13px;top:17px;width:68px;height:1px;opacity:.45;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 3px,transparent 3px 7px)}
+.a-golf .cup{position:absolute;left:82px;top:13px;width:15px;height:8px;border-radius:50%;
+  background:#04170e;box-shadow:inset 0 2px 5px rgba(0,0,0,.95)}
+.a-golf .pin{position:absolute;left:89px;top:-14px;width:1.5px;height:28px;
+  background:linear-gradient(180deg,#f2f6ff,rgba(242,246,255,.3))}
+.a-golf .flag{position:absolute;left:90px;top:-13px;width:12px;height:9px;background:var(--accent);
+  clip-path:polygon(0 0,100% 52%,0 100%);transform-origin:left center;
+  animation:flutter 2.8s ease-in-out infinite}
+@keyframes flutter{0%,100%{transform:scaleX(1)}50%{transform:scaleX(.72)}}
+.a-golf .ball{position:absolute;top:14px;width:7px;height:7px;border-radius:50%;
+  background:radial-gradient(circle at 32% 28%,#fff,#b9c7bf);
+  box-shadow:0 0 9px rgba(255,255,255,.55);animation:putt 4.4s var(--ease) infinite}
+@keyframes putt{
+  0%,12%{left:9px;opacity:1;transform:scale(1)}
+  58%{left:86px;opacity:1;transform:scale(1)}
+  68%,100%{left:86px;opacity:0;transform:scale(.35) translateY(3px)}
+}
+
 .foot{border-top:1px solid var(--line);padding:44px 0 60px;color:var(--text-3)}
 .foot__in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
 .foot a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--line)}
@@ -370,6 +400,7 @@ main,footer{position:relative;z-index:2}
   .a-finger .read{opacity:1}
   .a-spanish .es{filter:none;opacity:1}
   .a-spanish .wave i{transform:scaleY(.7)}
+  .a-golf .ball{left:86px;opacity:1}
 }
 </style>
 </head>
@@ -382,10 +413,10 @@ main,footer{position:relative;z-index:2}
 
 
 <main id="top">
-
-  <!-- ══ GRID ══ -->
   <section class="wrap">
-    <div class="grid" id="grid">
+
+    <h2 class="sect">Games <i>6</i></h2>
+    <div class="grid">
 
       <!-- INFERNO -->
       <article class="card" id="games" data-tags="game" style="--accent:#ff5c22">
@@ -452,6 +483,120 @@ main,footer{position:relative;z-index:2}
           </div>
         </div>
       </article>
+
+      <!-- WHACK-A-DOG -->
+      <article class="card" data-tags="game" style="--accent:#8bc34a">
+        <div class="art a-dog" aria-hidden="true">
+          <div class="holes">
+            <span class="hole"><span class="pup">🐶</span></span>
+            <span class="hole"><span class="pup">🐕</span></span>
+            <span class="hole"><span class="pup">😴</span></span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Arcade</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Whackadog/">Whack-a-Dog</a></h3>
+          <p class="desc">
+            Whack-a-mole with dogs. Combos climb to ×5, and the sleeping pups cost you points if you hit them.
+          </p>
+          <div class="actions">
+            <span class="go">Start whacking
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/Whackadog">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- PAWN SHOP -->
+      <article class="card" data-tags="game pwa" style="--accent:#d6b463">
+        <div class="art a-pawn" aria-hidden="true">
+          <div class="sign">
+            <span class="ball"></span><span class="ball"></span><span class="ball"></span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Appraisal sim</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Pawnshop/">Pawn Master</a></h3>
+          <p class="desc">
+            Inherit Merrick&rsquo;s and the $18,000 your grandfather owed. A third of the stories customers tell you are lies — spot the fakes or lose the shop.
+          </p>
+          <div class="actions">
+            <span class="go">Open the shop
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/Pawnshop">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- FASTEST FINGER -->
+      <article class="card" data-tags="game" style="--accent:#46e8c4">
+        <div class="art a-finger" aria-hidden="true">
+          <span class="read">3.000</span>
+          <span class="track"><span class="win"></span><span class="needle"></span></span>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Reflex game</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/fastestfinger/">Fastest Finger</a></h3>
+          <p class="desc">
+            A clock runs, you tap to stop it, and only the millisecond gap to the target counts.
+            Ten worlds and a window that keeps shrinking — by the last ones the clock hides, or
+            never shows at all.
+          </p>
+          <div class="actions">
+            <span class="go">Stop the clock
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/fastestfinger">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- POCKET PUTT -->
+      <article class="card" data-tags="game" style="--accent:#ffd76a">
+        <div class="art a-golf" aria-hidden="true">
+          <div class="green">
+            <span class="aim"></span>
+            <span class="cup"></span>
+            <span class="pin"></span>
+            <span class="flag"></span>
+            <span class="ball"></span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Mini golf</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/minigolf/">Pocket Putt</a></h3>
+          <p class="desc">
+            Eighteen holes of pocket-sized mini golf. Drag back to aim and set power, then work
+            round sand, water, ice, bumpers and things that move. Chases par, remembers your best
+            round, counts your aces.
+          </p>
+          <div class="actions">
+            <span class="go">Take the shot
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/minigolf">Source</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <h2 class="sect">Apps <i>5</i></h2>
+    <div class="grid">
 
       <!-- FINANCE DASHBOARD -->
       <article class="card" id="tools" data-tags="tool pwa" style="--accent:#10b981">
@@ -543,58 +688,6 @@ main,footer{position:relative;z-index:2}
         </div>
       </article>
 
-      <!-- WHACK-A-DOG -->
-      <article class="card" data-tags="game" style="--accent:#8bc34a">
-        <div class="art a-dog" aria-hidden="true">
-          <div class="holes">
-            <span class="hole"><span class="pup">🐶</span></span>
-            <span class="hole"><span class="pup">🐕</span></span>
-            <span class="hole"><span class="pup">😴</span></span>
-          </div>
-        </div>
-        <div class="body">
-          <div class="meta">
-            <span class="tag tag--live">Live</span>
-            <span class="tag tag--kind">Arcade</span>
-          </div>
-          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Whackadog/">Whack-a-Dog</a></h3>
-          <p class="desc">
-            Whack-a-mole with dogs. Combos climb to ×5, and the sleeping pups cost you points if you hit them.
-          </p>
-          <div class="actions">
-            <span class="go">Start whacking
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
-            <a class="src" href="https://github.com/aiappbulder-hub/Whackadog">Source</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- PAWN SHOP -->
-      <article class="card" data-tags="game pwa" style="--accent:#d6b463">
-        <div class="art a-pawn" aria-hidden="true">
-          <div class="sign">
-            <span class="ball"></span><span class="ball"></span><span class="ball"></span>
-          </div>
-        </div>
-        <div class="body">
-          <div class="meta">
-            <span class="tag tag--live">Live</span>
-            <span class="tag tag--kind">Appraisal sim</span>
-          </div>
-          <h3 class="title"><a href="https://aiappbulder-hub.github.io/Pawnshop/">Pawn Master</a></h3>
-          <p class="desc">
-            Inherit Merrick&rsquo;s and the $18,000 your grandfather owed. A third of the stories customers tell you are lies — spot the fakes or lose the shop.
-          </p>
-          <div class="actions">
-            <span class="go">Open the shop
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
-            <a class="src" href="https://github.com/aiappbulder-hub/Pawnshop">Source</a>
-          </div>
-        </div>
-      </article>
-
       <!-- FOCUSTREE -->
       <article class="card" data-tags="tool" style="--accent:#ffd60a">
         <div class="art a-focustree" aria-hidden="true">
@@ -643,32 +736,6 @@ main,footer{position:relative;z-index:2}
         </div>
       </article>
 
-      <!-- FASTEST FINGER -->
-      <article class="card" data-tags="game" style="--accent:#46e8c4">
-        <div class="art a-finger" aria-hidden="true">
-          <span class="read">3.000</span>
-          <span class="track"><span class="win"></span><span class="needle"></span></span>
-        </div>
-        <div class="body">
-          <div class="meta">
-            <span class="tag tag--live">Live</span>
-            <span class="tag tag--kind">Reflex game</span>
-          </div>
-          <h3 class="title"><a href="https://aiappbulder-hub.github.io/fastestfinger/">Fastest Finger</a></h3>
-          <p class="desc">
-            A clock runs, you tap to stop it, and only the millisecond gap to the target counts.
-            Ten worlds and a window that keeps shrinking — by the last ones the clock hides, or
-            never shows at all.
-          </p>
-          <div class="actions">
-            <span class="go">Stop the clock
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </span>
-            <a class="src" href="https://github.com/aiappbulder-hub/fastestfinger">Source</a>
-          </div>
-        </div>
-      </article>
-
       <!-- SPANISH -->
       <article class="card" data-tags="tool" style="--accent:#e08a6b">
         <div class="art a-spanish" aria-hidden="true">
@@ -697,6 +764,7 @@ main,footer{position:relative;z-index:2}
       </article>
 
     </div>
+
   </section>
 </main>
 
