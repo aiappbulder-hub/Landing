@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Apps by aiappbulder-hub</title>
-<meta name="description" content="Eleven browser games and apps — all live, nothing to install.">
+<meta name="description" content="Twelve browser games and apps — all live, nothing to install.">
 <meta name="theme-color" content="#07080c">
 <meta property="og:title" content="Apps by aiappbulder-hub">
-<meta property="og:description" content="Eleven browser games and apps — all live, nothing to install.">
+<meta property="og:description" content="Twelve browser games and apps — all live, nothing to install.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2307080c'/%3E%3Cpath d='M28 68V32h13l9 22 9-22h13v36H61V47l-8 21h-6l-8-21v21z' fill='%23ff7a3d'/%3E%3C/svg%3E">
 
@@ -354,6 +354,24 @@ main{padding-bottom:clamp(46px,8vh,80px)}
 .a-spanish .wave i:nth-child(5){height:30%;animation-delay:.52s}
 @keyframes speak{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
 
+/* — BACKFIRE: the cure race, until the armed trap springs — */
+.a-backfire{display:grid;place-items:center;align-content:center;gap:9px}
+.a-backfire .race{display:grid;grid-template-columns:44px 100px;align-items:center;gap:7px}
+.a-backfire .race b{font-family:var(--mono);font-size:.42rem;font-weight:600;letter-spacing:.14em;
+  color:rgba(230,236,244,.6);text-align:right}
+.a-backfire .track{position:relative;height:5px;border-radius:3px;background:rgba(255,255,255,.08)}
+.a-backfire .fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.a-backfire .collapse .fill{background:var(--accent);box-shadow:0 0 8px var(--accent);
+  animation:collapse 5.2s var(--ease) infinite}
+.a-backfire .cure .fill{background:#35c08a;animation:cure 5.2s var(--ease) infinite}
+.a-backfire .trap{position:absolute;left:62%;top:-3px;width:9px;height:9px;margin-left:-4.5px;
+  transform:rotate(45deg);border:1.5px solid #f0b429;background:#0a0c12;
+  animation:spring 5.2s var(--ease) infinite}
+@keyframes cure{0%{width:6%}48%{width:62%}62%,86%{width:24%}100%{width:6%}}
+@keyframes collapse{0%{width:4%}48%{width:16%}62%,86%{width:96%}100%{width:4%}}
+@keyframes spring{0%,44%{background:#0a0c12;box-shadow:none}
+  50%{background:#f0b429;box-shadow:0 0 12px #f0b429}62%,100%{background:#f0b429;box-shadow:none;opacity:.5}}
+
 /* — POCKET PUTT: the putt dropping into the cup — */
 .a-golf{background:radial-gradient(130% 150% at 50% 135%,#2f7a43,#0e2f1c 68%)!important;
   display:grid;place-items:center}
@@ -401,6 +419,9 @@ main{padding-bottom:clamp(46px,8vh,80px)}
   .a-spanish .es{filter:none;opacity:1}
   .a-spanish .wave i{transform:scaleY(.7)}
   .a-golf .ball{left:86px;opacity:1}
+  .a-backfire .cure .fill{width:24%}
+  .a-backfire .collapse .fill{width:96%}
+  .a-backfire .trap{background:#f0b429}
 }
 </style>
 </head>
@@ -415,7 +436,7 @@ main{padding-bottom:clamp(46px,8vh,80px)}
 <main id="top">
   <section class="wrap">
 
-    <h2 class="sect">Games <i>6</i></h2>
+    <h2 class="sect">Games <i>7</i></h2>
     <div class="grid">
 
       <!-- INFERNO -->
@@ -589,6 +610,32 @@ main{padding-bottom:clamp(46px,8vh,80px)}
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </span>
             <a class="src" href="https://github.com/aiappbulder-hub/minigolf">Source</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- BACKFIRE -->
+      <article class="card" data-tags="game" style="--accent:#e0453c">
+        <div class="art a-backfire" aria-hidden="true">
+          <div class="race collapse"><b>COLLAPSE</b><span class="track"><span class="fill"></span></span></div>
+          <div class="race cure"><b>CURE</b><span class="track"><span class="fill"></span><span class="trap"></span></span></div>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--live">Live</span>
+            <span class="tag tag--kind">Strategy</span>
+          </div>
+          <h3 class="title"><a href="https://aiappbulder-hub.github.io/backfire/">Backfire</a></h3>
+          <p class="desc">
+            A pandemic strategy game where the pathogen is weak and humanity&rsquo;s response is
+            the weapon. Arm traps that fire on treatment and cure research &mdash; but only before
+            the world thinks of them. Twelve regions, two rival blocs, a race against the cure.
+          </p>
+          <div class="actions">
+            <span class="go">Arm a trap
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <a class="src" href="https://github.com/aiappbulder-hub/backfire">Source</a>
           </div>
         </div>
       </article>

@@ -1,7 +1,7 @@
 # Landing
 
 The front door for everything at [github.com/aiappbulder-hub](https://github.com/aiappbulder-hub) —
-a single-page showcase of all eleven, split into Games and Apps, with a live link and
+a single-page showcase of all twelve, split into Games and Apps, with a live link and
 source link for each.
 
 **Live:** https://aiappbulder-hub.github.io/Landing/ *(once Pages is enabled — see below)*
@@ -19,6 +19,7 @@ source link for each.
 | **Pawn Master** | Inherit Merrick's and its $18,000 debt; spot the forgeries — installable PWA | [play](https://aiappbulder-hub.github.io/Pawnshop/) · [src](https://github.com/aiappbulder-hub/Pawnshop) |
 | **Fastest Finger** | Millisecond reflex game — stop the clock on target across ten worlds | [play](https://aiappbulder-hub.github.io/fastestfinger/) · [src](https://github.com/aiappbulder-hub/fastestfinger) |
 | **Pocket Putt** | Eighteen holes of mini golf — drag to aim, past sand, water, ice and bumpers | [play](https://aiappbulder-hub.github.io/minigolf/) · [src](https://github.com/aiappbulder-hub/minigolf) |
+| **Backfire** | Pandemic strategy where humanity's response is the weapon — arm traps before their trigger exists | [play](https://aiappbulder-hub.github.io/backfire/) · [src](https://github.com/aiappbulder-hub/backfire) |
 | **Spanish** | Speaking-first Spanish course, Michel Thomas method, with spaced review | [open](https://aiappbulder-hub.github.io/Spanish/) · [src](https://github.com/aiappbulder-hub/Spanish) |
 | **FocusTree** | Ten anti-burnout methods in one app; finish a task and it plants a tree | [open](https://aiappbulder-hub.github.io/focustree/) · [src](https://github.com/aiappbulder-hub/focustree) |
 
@@ -47,13 +48,14 @@ Design notes:
   from holes, Pawn Master the three golden balls on a swinging sign, FocusTree the 5-4-3-2-1
   count-in and a forest arriving one task at a time, Fastest Finger a needle snapping into
   the target window, Spanish an English prompt with the Spanish blurred out until it
-  resolves over a speaking waveform, and Pocket Putt a ball rolling into the cup past a
-  gold pin.
+  resolves over a speaking waveform, Pocket Putt a ball rolling into the cup past a
+  gold pin, and Backfire the Cure bar pulling ahead until an armed trap springs and Collapse
+  takes the race.
 - Deliberately bare above the grid: no banner, no hero, no filter bar. The work is the first
   thing on screen. Artwork panels are kept small (76px) so a lot of the set fits at once.
 - **Two sections, Games and Apps**, headed by small monospace labels with a hairline rule
   rather than large headings — the split is signposted without putting a wall of type back
-  above the cards. Six games and five apps land as 3+3 and 3+2 in the three-column layout.
+  above the cards. Seven games and five apps land as 3+3+1 and 3+2 in the three-column layout.
 - Pointer-tracked spotlight and a subtle 3D tilt on hover; scroll reveal with a timeout safety
   net so nothing can stay invisible.
 - Fully responsive, and every animation is disabled under `prefers-reduced-motion: reduce`.
