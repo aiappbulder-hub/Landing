@@ -1,7 +1,7 @@
 # Landing
 
 The front door for everything at [github.com/aiappbulder-hub](https://github.com/aiappbulder-hub) —
-a single-page showcase of all eleven, split into Games and Apps, with a live link and
+a single-page showcase of all twelve, split into Games and Apps, with a live link and
 source link for each.
 
 **Live:** https://aiappbulder-hub.github.io/Landing/ *(once Pages is enabled — see below)*
@@ -10,6 +10,7 @@ source link for each.
 
 | App | What it is | Link |
 |---|---|---|
+| **Backfire** | Pandemic strategy where humanity's response is the weapon — arm traps before their trigger exists | [play](https://aiappbulder-hub.github.io/backfire/) · [src](https://github.com/aiappbulder-hub/backfire) |
 | **Inferno** | Dante's *Inferno* as a cinematic 2D platformer, plus a 3D *Purgatorio* chapter | [play](https://aiappbulder-hub.github.io/inferno/game/) · [src](https://github.com/aiappbulder-hub/inferno) |
 | **Wordle** | Wordle clone with a clue button and a live possible-words solver | [play](https://aiappbulder-hub.github.io/Wordle/) · [src](https://github.com/aiappbulder-hub/Wordle) |
 | **Finance Dashboard** | Property, investments, super and retirement countdown — installable PWA | [open](https://aiappbulder-hub.github.io/Finance-Dashboard/) · [src](https://github.com/aiappbulder-hub/Finance-Dashboard) |
@@ -49,11 +50,15 @@ Design notes:
   the target window, Spanish an English prompt with the Spanish blurred out until it
   resolves over a speaking waveform, and Pocket Putt a ball rolling into the cup past a
   gold pin.
+  Backfire gets its own logo's B**AC**KFIRE over a planet horizon, with a treatment wave
+  that goes out in the blue bloc's colour and comes back red — the trap firing.
 - Deliberately bare above the grid: no banner, no hero, no filter bar. The work is the first
   thing on screen. Artwork panels are kept small (76px) so a lot of the set fits at once.
 - **Two sections, Games and Apps**, headed by small monospace labels with a hairline rule
   rather than large headings — the split is signposted without putting a wall of type back
-  above the cards. Six games and five apps land as 3+3 and 3+2 in the three-column layout.
+  above the cards. Seven games and five apps: the newest game is a full-width **featured card**
+  (`.card--wide`, artwork beside the copy, a pulsing *New* tag) so the rest land as 3+3 and
+  3+2 in the three-column layout with no orphan row.
 - Pointer-tracked spotlight and a subtle 3D tilt on hover; scroll reveal with a timeout safety
   net so nothing can stay invisible.
 - Fully responsive, and every animation is disabled under `prefers-reduced-motion: reduce`.
@@ -83,6 +88,7 @@ root and `.nojekyll` is committed, so GitHub's built-in builder publishes on eve
 
 Copy any `<article class="card">` block in `index.html` into whichever `.grid` it belongs to
 (Games or Apps), change the `--accent` colour, the `data-tags` (`game`, `tool`, `pwa` — kept as
-metadata, no longer used for filtering), the copy, and the two links. Bump the count in that
-section's `<h2 class="sect">`. If you want bespoke artwork, add a matching `.a-yourapp` block in
+metadata, no longer used for filtering), the copy, and the two links (give the Source link an `aria-label`). Bump the count in that
+section's `<h2 class="sect">`. To feature it, add `card--wide` and a `tag--new`, and
+take both off the previous featured card. If you want bespoke artwork, add a matching `.a-yourapp` block in
 the artwork section of the stylesheet — otherwise the accent gradient alone still looks fine.
