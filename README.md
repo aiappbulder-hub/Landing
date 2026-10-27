@@ -1,7 +1,7 @@
 # Landing
 
 The front door for everything at [github.com/aiappbulder-hub](https://github.com/aiappbulder-hub) —
-a single-page showcase of all twelve, split into Games and Apps, with a live link and
+a single-page showcase of all thirteen, split into Games and Apps, with a live link and
 source link for each.
 
 **Live:** https://aiappbulder-hub.github.io/Landing/ *(once Pages is enabled — see below)*
@@ -10,6 +10,7 @@ source link for each.
 
 | App | What it is | Link |
 |---|---|---|
+| **GTA Melbourne** | 3D open-world Melbourne, 2004 — landmarks, trams, five-star wanted level, five missions | *not published* · [src](https://github.com/aiappbulder-hub/GTAMelbourne-) |
 | **Backfire** | Pandemic strategy where humanity's response is the weapon — arm traps before their trigger exists | [play](https://aiappbulder-hub.github.io/backfire/) · [src](https://github.com/aiappbulder-hub/backfire) |
 | **Inferno** | Dante's *Inferno* as a cinematic 2D platformer, plus a 3D *Purgatorio* chapter | [play](https://aiappbulder-hub.github.io/inferno/game/) · [src](https://github.com/aiappbulder-hub/inferno) |
 | **Wordle** | Wordle clone with a clue button and a live possible-words solver | [play](https://aiappbulder-hub.github.io/Wordle/) · [src](https://github.com/aiappbulder-hub/Wordle) |
@@ -31,6 +32,18 @@ root has no `index.html` — so the bare `…/inferno/` URL 404s and the link he
 (the same trick Pawnshop already uses to forward `/Pawnshop/` to `/web/`) would let the bare
 URL work, at which point this link can be shortened.
 
+### GTA Melbourne isn't published yet
+
+`GTAMelbourne-` has GitHub Pages switched off (`has_pages: false`), so there is no live URL and
+its card links to the source instead of a play link, tagged *Not published yet* rather than
+*Live*. Its `index.html` is at the repo root on the default branch `ccr-c003ea14-x4uzks`, so
+**Settings → Pages → Source → Deploy from a branch**, that branch, `/ (root)` is all it needs.
+The game also loads its car models over http(s), so it needs hosting to look right.
+
+Once it is live, the card carries an HTML comment listing the three edits: point the title link
+at `https://aiappbulder-hub.github.io/GTAMelbourne-/`, swap `tag--dev` for `tag--live`, and add
+the Source link back beside the action.
+
 ## How it's built
 
 One dependency-free `index.html` — same convention as the rest of the apps. No framework,
@@ -50,6 +63,8 @@ Design notes:
   the target window, Spanish an English prompt with the Spanish blurred out until it
   resolves over a speaking waveform, and Pocket Putt a ball rolling into the cup past a
   gold pin.
+  GTA Melbourne gets a neon skyline with the Arts Centre spire, a wanted level climbing to
+  five stars and a car on the cruise;
   Backfire gets its own logo's B**AC**KFIRE over a planet horizon, with a treatment wave
   that goes out in the blue bloc's colour and comes back red — the trap firing.
 - Deliberately bare above the grid: no banner, no hero, no filter bar. The work is the first

@@ -427,6 +427,8 @@ main{padding-bottom:clamp(46px,8vh,80px)}
 .a-backfire .line{display:none}
 @media(min-width:640px){
   .card--wide .a-backfire .mark{top:22%;font-size:1.7rem}
+  .card--wide .a-gta .mark{top:40%;font-size:1.45rem}
+  .card--wide .a-gta .stars b{font-size:14px}
   .card--wide .a-backfire .line{display:block;top:calc(22% + 2.6rem);font-size:.52rem}
 }
 
@@ -435,10 +437,41 @@ main{padding-bottom:clamp(46px,8vh,80px)}
 .foot a{color:var(--text-2);text-decoration:none;border-bottom:1px solid var(--line)}
 .foot a:hover{color:var(--text);border-color:currentColor}
 
+/* — GTA MELBOURNE: neon skyline, wanted stars climbing, a car on the cruise — */
+.a-gta{background:linear-gradient(180deg,#0a0714 0%,#1d0b2a 36%,#4a1140 66%,#86204a 100%)!important;
+  overflow:hidden}
+.a-gta .glow{position:absolute;left:50%;bottom:4%;translate:-50% 0;width:130%;height:62%;
+  background:radial-gradient(62% 100% at 50% 100%,rgba(255,61,154,.55),transparent 72%);filter:blur(7px)}
+.a-gta .skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:56%}
+.a-gta .skyline path{fill:#06050d;
+  filter:drop-shadow(0 -1px 7px rgba(255,61,154,.65)) drop-shadow(0 -4px 16px rgba(124,198,255,.25))}
+.a-gta .stars{position:absolute;top:9%;left:50%;translate:-50% 0;display:flex;gap:3px;z-index:3}
+.a-gta .stars b{font-size:10px;line-height:1;color:rgba(255,255,255,.15);
+  animation:wanted 5s var(--ease) infinite}
+.a-gta .stars b:nth-child(2){animation-delay:.3s}
+.a-gta .stars b:nth-child(3){animation-delay:.6s}
+.a-gta .stars b:nth-child(4){animation-delay:.9s}
+.a-gta .stars b:nth-child(5){animation-delay:1.2s}
+@keyframes wanted{
+  0%,5%{color:rgba(255,255,255,.15);text-shadow:none}
+  11%,74%{color:var(--accent);text-shadow:0 0 8px var(--accent)}
+  80%,100%{color:rgba(255,255,255,.15);text-shadow:none}
+}
+.a-gta .car{position:absolute;bottom:5%;width:10px;height:3px;border-radius:2px;z-index:2;
+  background:linear-gradient(90deg,rgba(255,204,51,0),#ffcc33);
+  box-shadow:0 0 9px 1px rgba(255,204,51,.8);animation:cruise 6s linear infinite}
+@keyframes cruise{0%{left:-10%}100%{left:106%}}
+.a-gta .mark{position:absolute;left:50%;top:34%;translate:-50% 0;z-index:3;
+  font-weight:900;font-size:.82rem;letter-spacing:.06em;color:#fff;white-space:nowrap;
+  transform:skewX(-7deg);
+  text-shadow:0 0 12px var(--accent),0 0 22px color-mix(in srgb,var(--accent) 60%,transparent),0 2px 0 rgba(0,0,0,.55)}
+
 /* ─────────────────────────────────────────────────────────────
    MOTION PREFERENCES
    ───────────────────────────────────────────────────────────── */
 @media(prefers-reduced-motion:reduce){
+  .a-gta .stars b{color:var(--accent)}
+  .a-gta .car{left:46%}
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
   html{scroll-behavior:auto}
   .card{opacity:1;transform:none}
@@ -470,8 +503,44 @@ main{padding-bottom:clamp(46px,8vh,80px)}
   <h1 class="sr-only">Browser games and apps by aiappbulder-hub</h1>
   <section class="wrap">
 
-    <h2 class="sect" id="games">Games <i>7</i></h2>
+    <h2 class="sect" id="games">Games <i>8</i></h2>
     <div class="grid">
+
+      <!-- GTA MELBOURNE -->
+      <article class="card card--wide" data-tags="game" style="--accent:#ff3d9a">
+        <div class="art a-gta" aria-hidden="true">
+          <span class="glow"></span>
+          <svg class="skyline" viewBox="0 0 160 44" preserveAspectRatio="none">
+            <path d="M0,44 V30 H12 V24 H20 V32 H30 V18 H40 V28 H48 V9 H58 V26 H60 L61.5,3 L63,26 H72 V33 H80 V20 H90 V28 H100 V13 H110 V26 H120 V30 H130 V22 H142 V31 H152 V25 H160 V44 Z"/>
+          </svg>
+          <span class="car"></span>
+          <span class="stars"><b>&#9733;</b><b>&#9733;</b><b>&#9733;</b><b>&#9733;</b><b>&#9733;</b></span>
+          <span class="mark">MELBOURNE 2004</span>
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="tag tag--new">New</span>
+            <span class="tag tag--dev">Not published yet</span>
+            <span class="tag tag--kind">Open-world 3D</span>
+          </div>
+          <h3 class="title"><a href="https://github.com/aiappbulder-hub/GTAMelbourne-">GTA Melbourne</a></h3>
+          <p class="desc">
+            Melbourne in 2004, rendered in 3D — Eureka Tower, Flinders Street, the Shrine, the MCG
+            and a drivable Albert Park circuit with a lap timer. Traffic keeps left and queues
+            behind the trams, the wanted level climbs to five stars, and there are five story
+            missions, four weapons and a city full of parody Aussie muscle. One
+            <code>index.html</code> on Three.js, with a 2D fallback if the CDN won&rsquo;t load.
+          </p>
+          <div class="actions">
+            <span class="go">See the source
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </span>
+            <!-- Once Pages is enabled on GTAMelbourne-, switch the title link to
+                 https://aiappbulder-hub.github.io/GTAMelbourne-/ , swap the
+                 "Not published yet" tag for tag--live, and restore the Source link below. -->
+          </div>
+        </div>
+      </article>
 
       <!-- BACKFIRE -->
       <article class="card card--wide" data-tags="game" style="--accent:#e0453c">
